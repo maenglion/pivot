@@ -17,17 +17,22 @@
   h1{font-size:24px; font-weight:700; margin-bottom:6px;}
   .sub{color:var(--muted); font-size:14px; margin-bottom:28px;}
   h2{font-size:17px; font-weight:700; margin:36px 0 10px; padding-left:10px; border-left:4px solid var(--purple);}
+  h2.coral{border-left-color:var(--coral);}
+  h2.teal{border-left-color:var(--teal);}
   .note{font-size:13px; color:var(--muted); margin-bottom:10px;}
   .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin:18px 0 6px;}
   .card{background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px;}
+  .card.hot{border-color:var(--coral); border-width:2px;}
   .card .k{font-size:12px; color:var(--muted);}
   .card .v{font-size:21px; font-weight:700; margin-top:2px;}
+  .card.hot .v{color:var(--coral);}
   .card .d{font-size:12px; color:var(--muted); margin-top:2px;}
   .panel{background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; margin-top:14px;}
-  .tabs{display:flex; gap:8px; margin-bottom:10px;}
+  .tabs{display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;}
   .tab{padding:7px 16px; border:1px solid var(--line); border-radius:20px; background:#fff; cursor:pointer; font-size:13px; font-weight:600; color:var(--muted);}
   .tab.on{background:var(--purple); border-color:var(--purple); color:#fff;}
   .tab.amber.on{background:var(--coral); border-color:var(--coral);}
+  .tab.teal.on{background:var(--teal); border-color:var(--teal);}
   .legend{display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--muted); margin:6px 0 8px;}
   .legend span{display:flex; align-items:center; gap:5px;}
   .sw{width:10px; height:10px; border-radius:2px; display:inline-block;}
@@ -39,171 +44,253 @@
   .src-ibk{background:#EEEDFE; color:#3C3489;}
   .src-sns{background:#FAECE7; color:#993C1D;}
   .src-card{background:#FAEEDA; color:#854F0B;}
+  .src-kakao{background:#E1F5EE; color:#085041;}
   table{width:100%; border-collapse:collapse; font-size:13px; background:#fff;}
   th,td{border:1px solid var(--line); padding:7px 10px; text-align:left;}
   th{background:#f3f1ea; font-weight:700;}
+  .vs{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:14px;}
+  .vs .box{border-radius:12px; padding:18px;}
+  .vs .seen{background:#EEEDFE; border:1px solid #CECBF6;}
+  .vs .real{background:#E1F5EE; border:1px solid #9FE1CB;}
+  .vs h3{font-size:14px; font-weight:700; margin-bottom:8px;}
+  .vs .seen h3{color:#3C3489;} .vs .real h3{color:#085041;}
+  .vs ul{margin:0; padding-left:18px; font-size:13px;}
+  .vs li{margin-bottom:5px;}
+  .bars{display:flex; flex-direction:column; gap:8px; margin-top:8px;}
+  .barrow{display:grid; grid-template-columns:150px 1fr 90px; align-items:center; gap:8px; font-size:12px;}
+  .barrow .track{background:#f0eee6; border-radius:6px; height:20px; overflow:hidden;}
+  .barrow .fill{height:100%; border-radius:6px;}
   .foot{margin-top:40px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:14px;}
+  @media(max-width:640px){ .vs{grid-template-columns:1fr;} .barrow{grid-template-columns:110px 1fr 70px;} }
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <h1>시뮬라크르에이트 사업전환 타임라인</h1>
-<p class="sub">신용보증기금이 <b>수령한 자료(IBK 계좌내역 2개)</b>와 <b>열람·캡처한 소스(SNS)</b>만으로 식별 가능했던 사업 흐름 — 동일 시간축 교차 분석</p>
+<p class="sub">신용보증기금이 <b>수령한 자료(IBK 계좌내역 2개)</b>와 <b>열람·캡처한 소스(SNS)</b>만으로 식별 가능했던 흐름 vs. 실제 운영 — 동일 시간축 교차 분석</p>
 
 <div class="cards">
-  <div class="card"><div class="k">분석 거래</div><div class="v">469건</div><div class="d">014 주거래 392 + 021 정산 77</div></div>
+  <div class="card"><div class="k">분석 거래</div><div class="v">469건+</div><div class="d">IBK 014/021 + 카뱅 233건</div></div>
   <div class="card"><div class="k">거래상대처</div><div class="v">70곳</div><div class="d">특수관계인 외 68곳</div></div>
-  <div class="card"><div class="k">총 매출(입금)</div><div class="v">4.2억</div><div class="d">용역 4.0억 + 이커머스 정산 다건</div></div>
+  <div class="card hot"><div class="k">신보 미열람 독자매출</div><div class="v">1,031만원</div><div class="d">오키드영 플랫폼 정산 125건</div></div>
   <div class="card"><div class="k">기부 지속</div><div class="v">31건 / 19개월</div><div class="d">자폐재단·민생연대 매월</div></div>
 </div>
 
-<h2>① 신보가 열람한 소스 — 동일 시간축 이벤트</h2>
-<p class="note"><span class="src-tag src-ibk">IBK 계좌</span>신보 수령 자료에 직접 기재 &nbsp; <span class="src-tag src-sns">SNS</span>신보가 캡처를 제출한 소스(열람 자백) &nbsp; <span class="src-tag src-card">개인카드</span>대표 사재 — 법인계좌 밖 실제 운영비</p>
-<div class="panel">
-  <div class="bandbox"><canvas id="bandChart"></canvas></div>
+<h2 class="coral">① 핵심 — 신보가 본 그림 vs 실제 그림</h2>
+<p class="note">신보는 법인 IBK 2계좌만 확보했다. 같은 시기 이커머스(오키드영)는 <b>개인사업자 통장(카뱅)</b>에서 독자 매출·운영비가 돌고 있었고, 이 채널은 신보가 보지 못했다. 즉 신보의 자금 그림은 <b>운영의 한쪽 면만</b> 담고 있다.</p>
+<div class="vs">
+  <div class="box seen">
+    <h3>신보가 확보·제출한 것</h3>
+    <ul>
+      <li>IBK 014 주거래 + 021 정산, 2계좌</li>
+      <li>법인계좌 안의 출금만 보임 → "가족 지급" 부각</li>
+      <li>이커머스 독자 매출·광고·사입은 <b>안 보임</b></li>
+      <li>SNS 일부 캡처(기술·업무 게시물은 누락)</li>
+    </ul>
+  </div>
+  <div class="box real">
+    <h3>실제 운영(미열람 포함)</h3>
+    <ul>
+      <li>오키드영 통장: 플랫폼 매출 <b>1,031만원</b> (쿠팡·지마켓·11번가)</li>
+      <li>셔터스톡 정기결제 등 <b>실운영비 595만원</b></li>
+      <li>2024.09~2025.12, 1년 4개월 연속 가동</li>
+      <li>건당 사입·풀필먼트(퀵스타·직플) 반복 — 실거래</li>
+    </ul>
+  </div>
 </div>
 
-<h2>② 비용의 성격 변화 — 자금원 전환</h2>
-<p class="note">법인계좌(신보 보유분)와 개인카드(신보 미열람분)를 같은 축에서 전환 비교. 광고비의 본체는 개인카드에 있음. IBK의 "맹난영 앞 출금" 1.04억은 정기 보수(0.93억) + 실비정산(노션·카드 원단위 대조 0.06억) + 잔여 소액으로 전량 분해됨 — 별첨 대조표 참조.</p>
+<h2>② 신보가 열람한 소스 — 동일 시간축 이벤트</h2>
+<p class="note"><span class="src-tag src-ibk">IBK 계좌</span>신보 수령 자료 기재 &nbsp; <span class="src-tag src-sns">SNS</span>신보가 캡처 제출(열람 자백) &nbsp; <span class="src-tag src-card">개인카드</span>대표 사재 &nbsp; <span class="src-tag src-kakao">오키드영 통장</span>신보 미열람 이커머스</p>
+<div class="panel">
+  <div class="bandbox"><canvas id="bandChart" role="img" aria-label="소스별 사업 이벤트 시간축 산점도"></canvas></div>
+</div>
+
+<h2>③ 비용의 성격 변화 — 자금원 전환</h2>
+<p class="note">법인계좌(신보 보유분) · 개인카드(사재) · 오키드영 통장(신보 미열람)을 같은 축에서 비교. 광고·콘텐츠비의 본체는 법인계좌 밖에 있다. IBK "맹난영 앞 출금" 1.04억은 정기보수(0.93억)+실비정산(0.06억)+잔여로 전량 분해됨.</p>
 <div class="panel">
   <div class="tabs">
-    <button class="tab on" id="tabIbk" onclick="showCost('ibk')">법인계좌 (신보 보유 자료)</button>
-    <button class="tab amber" id="tabCard" onclick="showCost('card')">개인카드 (대표 사재 투입)</button>
+    <button class="tab on" id="tabIbk" onclick="showCost('ibk')">법인계좌 (신보 보유)</button>
+    <button class="tab amber" id="tabCard" onclick="showCost('card')">개인카드 (사재·입력대기)</button>
+    <button class="tab teal" id="tabKakao" onclick="showCost('kakao')">오키드영 통장 (신보 미열람)</button>
   </div>
   <div class="legend" id="costLegend"></div>
-  <div class="chartbox"><canvas id="costChart"></canvas></div>
+  <div class="chartbox"><canvas id="costChart" role="img" aria-label="자금원별 월별 비용 누적막대"></canvas></div>
   <div class="phasebar">
     <div style="flex:10;background:#EEEDFE;color:#3C3489;">1. 데이터용역기<br>23.08~24.05 · 프리랜서 인건비</div>
-    <div style="flex:5;background:#E1F5EE;color:#085041;">2. 피벗 착수<br>24.06 등기 + 021계좌 개설(동일)</div>
-    <div style="flex:11;background:#FAEEDA;color:#633806;">3. 이커머스 본격화<br>24.11~ 광고·개인사업자·채널다변화</div>
+    <div style="flex:5;background:#E1F5EE;color:#085041;">2. 피벗 착수<br>24.06 등기 + 021계좌 개설</div>
+    <div style="flex:14;background:#FAEEDA;color:#633806;">3. 이커머스 본격화<br>24.11~25.12 · 광고·개인사업자·채널다변화</div>
   </div>
 </div>
 
-<h2>③ 매출의 성격 변화 (참고)</h2>
+<h2 class="teal">④ 신보 미열람 채널 — 오키드영 독자매출 vs 운영비</h2>
+<p class="note">개인사업자 통장(카뱅) 실거래. 매출(플랫폼 정산)과 운영비(셔터스톡·광고·사입)가 같이 움직인다 — 정상적 이커머스 운영의 형태. 이 매출원은 신보 자료에 전혀 등장하지 않는다.</p>
 <div class="panel">
   <div class="legend">
-    <span><span class="sw" style="background:#9b8fe0"></span>용역(복덕판·외주수임) 1.96억</span>
-    <span><span class="sw" style="background:#534AB7"></span>용역(B2B 데이터) 2.07억</span>
-    <span><span class="sw" style="background:#D85A30"></span>자문·지원사업 0.15억</span>
-    <span><span class="sw" style="background:#1D9E75"></span>이커머스 정산 38건</span>
+    <span><span class="sw" style="background:#1D9E75"></span>플랫폼 매출정산(쿠팡·지마켓·11번가)</span>
+    <span><span class="sw" style="background:#D85A30"></span>운영비(셔터스톡·광고·사입·풀필)</span>
   </div>
-  <div class="chartbox"><canvas id="revChart"></canvas></div>
+  <div class="chartbox"><canvas id="kakaoChart" role="img" aria-label="오키드영 월별 매출과 운영비 비교"></canvas></div>
 </div>
 
-<h2>④ 이벤트 원장</h2>
-<p class="note">SNS·개인카드 항목은 아래 JS의 EVENTS / CARD_MONTHLY 배열에 추가하면 차트에 자동 반영됩니다.</p>
+<h2>⑤ 매출의 성격 변화 (전 채널 종합)</h2>
+<div class="panel">
+  <div class="legend">
+    <span><span class="sw" style="background:#9b8fe0"></span>용역(복덕판·외주수임)</span>
+    <span><span class="sw" style="background:#534AB7"></span>용역(B2B 데이터)</span>
+    <span><span class="sw" style="background:#D85A30"></span>자문·지원사업</span>
+    <span><span class="sw" style="background:#EF9F27"></span>이커머스 정산(IBK 021)</span>
+    <span><span class="sw" style="background:#1D9E75"></span>오키드영 통장(신보 미열람)</span>
+  </div>
+  <div class="chartbox"><canvas id="revChart" role="img" aria-label="채널별 월별 매출 누적막대"></canvas></div>
+</div>
+
+<h2 class="coral">⑥ "왜 석은영만?" — 부분 발췌의 구조</h2>
+<p class="note">시뮬라크르에이트의 출금 거래상대처는 70곳. 신보는 이 중 특수관계인 소수만 골라 "환류"로 프레이밍한다. 거래의 절대다수는 정상 거래처이며, 외부 영업(조광희)에 대한 지급이 쟁점이 된 가족 지급보다 크다.</p>
+<div class="panel">
+  <div class="bars" id="extractBars"></div>
+  <p class="note" style="margin-top:10px;">※ 조광희(외부 영업, 비특수관계) 단일 지급이 석은영 지급을 상회 → "가족이라서 문제"라는 전제 자체가 성립하지 않음(동일 성격 비특수관계 지급 존재).</p>
+</div>
+
+<h2>⑦ 이벤트 원장</h2>
 <table id="evtTable">
   <thead><tr><th>시점</th><th>소스</th><th>내용</th><th>증거 성격</th></tr></thead>
   <tbody></tbody>
 </table>
 
-<p class="foot">데이터 출처: IBK기업은행 계좌별거래명세표 (677-040281-01-014 / -021, 조회기간 2023-07-25 ~ 2025-12-17, 신보 제출 동일본). 금액 단위: 원. 본 자료의 모든 집계는 첨부 엑셀(계정과목 분류표)과 일치.</p>
+<p class="foot">데이터 출처: IBK기업은행 계좌별거래명세표(677-040281-01-014/-021, 2023-07-25~2025-12-17, 신보 제출 동일본) + 카카오뱅크 거래내역(개인사업자 통장 ****6132, 2024-07~2025-12). 금액 단위: 원. 카뱅(오키드영) 채널은 신보 제출 자료에 미포함.</p>
 </div>
 
 <script>
-const MONTHS = ["2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09"];
+const MONTHS = ["2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12"];
 const M = v => Math.round(v/10000)/100;
 
-// ---------- 법인계좌(IBK) 월별 비용 — 코랩 산출값과 동일 ----------
 const IBK_COST = {
-  "프리랜서·인건비(신고)": [0,32221090,0,0,0,0,0,0,0,0,0,0,0,4219636,0,6769000,5802000,0,0,0,0,0,0,0,0,0],
-  "구매대행(개인사업자)": [0,0,0,0,0,0,0,0,0,0,0,0,560280,1500000,1000000,1000000,2500000,3000000,5000000,1000000,2200000,0,0,0,0,0],
-  "광고비(네이버)": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1100000,1500000,1000000,500000,600000,0,0,0,0,0],
-  "솔루션·물류·반품": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20849,15065,665950,28000,30400,0,0,0,0,0,0],
-  "영업·교육·특허·등기": [0,0,152240,0,0,0,0,2254720,0,0,195140,0,152240,7689000,0,0,0,0,4400000,0,0,0,0,0,0,0]
-};
+    "프리랜서·인건비(신고)":[0,32221090,0,0,0,0,0,0,0,0,0,0,0,4219636,0,6769000,5802000,0,0,0,0,0,0,0,0,0,0,0,0],
+    "구매대행(개인사업자)":[0,0,0,0,0,0,0,0,0,0,0,0,560280,1500000,1000000,1000000,2500000,3000000,5000000,1000000,2200000,0,0,0,0,0,0,0,0],
+    "광고비(네이버)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1100000,1500000,1000000,500000,600000,0,0,0,0,0,0,0,0],
+    "솔루션·물류·반품":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20849,15065,665950,28000,30400,0,0,0,0,0,0,0,0,0],
+    "영업·교육·특허·등기":[0,0,152240,0,0,0,0,2254720,0,0,195140,0,152240,7689000,0,0,0,0,4400000,0,0,0,0,0,0,0,0,0,0]
+  };
 const IBK_COLORS = ["#534AB7","#EF9F27","#D4537E","#5DCAA5","#888780"];
 
-// ---------- 개인카드 월별 비용 — 카드명세 정리 후 여기에 입력 ----------
 const CARD_MONTHLY = {
-  "재고매입(알리바바·카드1209)": [0,0,0,0,0,0,0,0,0,0,0,667803,421594,4901762,0,0,0,0,0,0,0,0,0,0,0,0],
-  "광고비(메타/인스타·노션대조)": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,368079,1094691,0,0,0,0,0,0,0,0,0,0],
-  "광고비(기타 플랫폼)": [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  "솔루션·SaaS":        [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  "기타 운영비":         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-};
+    "재고매입(알리바바·카드)":[0,0,0,0,0,0,0,0,0,0,0,667803,421594,4901762,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "광고비(메타/인스타)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,368079,1094691,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "솔루션·SaaS":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "기타 운영비":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+  };
 const CARD_COLORS = ["#EF9F27","#D4537E","#D85A30","#1D9E75","#888780"];
 
-// ---------- 매출 ----------
-const REV = {
-  "개인사업자 계좌(쿠팡·11번가) — 신보 미열람": [0,0,0,0,0,0,0,0,0,0,0,0,0,411678,2290253,1158748,1038913,0,0,0,0,0,0,0,0,0],
-  "용역(복덕판·외주수임)": [0,16500000,40700000,11000000,38500000,12100000,11000000,11000000,11000000,11000000,10000000,12100000,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  "용역(B2B 데이터)": [52180374,0,0,0,11000000,0,0,0,0,0,0,0,69660000,0,69660000,0,0,15480000,0,0,0,0,0,0,0,0],
-  "자문·지원사업": [0,0,0,0,2800000,0,0,0,0,0,1100000,11000000,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  "이커머스 정산": [0,0,936000,0,0,0,0,0,0,0,0,0,0,0,1,59726,0,232068,159587,200795,999418,384929,431103,0,85065,260252]
-};
-const REV_COLORS = ["#EF9F27","#9b8fe0","#534AB7","#D85A30","#1D9E75"];
+const KAKAO_COST = {
+    "콘텐츠소스(셔터스톡 정기)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,146179,144824,0,145603,145546,145345,145331,0,145657,42751,0,42670,42663,0,0],
+    "광고(네이버·오키드영)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1778000,320000,50000,30000,70000,120000,0,0,0,0,0,0,0,0],
+    "사입·풀필먼트":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,200000,700000,0,0,0,0,140000,0,270000,0,0,0,0,0,0],
+    "기타 운영비":[0,0,0,0,0,0,0,0,0,0,0,0,0,141000,60290,0,45000,0,52700,2700,10000,0,3700,105000,0,0,0,0,0]
+  };
+const KAKAO_COLORS = ["#1D9E75","#D85A30","#EF9F27","#888780"];
 
-// ---------- 이벤트 원장: {ym, src(ibk|sns|card), label, kind} ----------
+const REV = {
+    "용역(복덕판·외주수임)":[0,16500000,40700000,11000000,38500000,12100000,11000000,11000000,11000000,11000000,10000000,12100000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "용역(B2B 데이터)":[52180374,0,0,0,11000000,0,0,0,0,0,0,0,69660000,0,69660000,0,0,15480000,0,0,0,0,0,0,0,0,0,0,0],
+    "자문·지원사업":[0,0,0,0,2800000,0,0,0,0,0,1100000,11000000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "이커머스 정산(IBK 021)":[0,0,936000,0,0,0,0,0,0,0,0,0,0,0,1,59726,0,232068,159587,200795,999418,384929,431103,0,85065,260252,0,0,0],
+    "오키드영 통장(신보 미열람)":[0,0,0,0,0,0,0,0,0,0,0,1,0,411678,2290253,1158748,1038913,396543,603680,2128322,558929,341078,694965,83068,134415,80290,26970,65065,302965]
+  };
+const REV_COLORS = ["#9b8fe0","#534AB7","#D85A30","#EF9F27","#1D9E75"];
+const KAKAO_REV = [0,0,0,0,0,0,0,0,0,0,0,1,0,411678,2290253,1158748,1038913,396543,603680,2128322,558929,341078,694965,83068,134415,80290,26970,65065,302965];
+
 const EVENTS = [
-  {ym:"2023-08", src:"card", label:"알리바바 계정 2019년부터 운영 — 과거 이커머스 업력 수출입 이력(USD 474)", kind:"무역 실무 선재"},
-  {ym:"2023-08", src:"ibk",  label:"014 주거래계좌 개설·B2B 매출 개시(오키드영)", kind:"사업 실재"},
+  {ym:"2023-08", src:"card", label:"알리바바 계정 2019년부터 운영 — 과거 이커머스 업력 수출입 이력", kind:"무역 실무 선재"},
+  {ym:"2023-08", src:"ibk",  label:"014 주거래계좌 개설·B2B 매출 개시", kind:"사업 실재"},
   {ym:"2023-09", src:"sns",  label:"대표 차의대 입학 (프로필 기재)", kind:"피벗 준비"},
   {ym:"2024-03", src:"ibk",  label:"함께웃는재단(자폐재단) 기부 개시 — 등기 3개월 전, 이후 19개월 연속", kind:"피벗 전 행적"},
-  {ym:"2024-06", src:"ibk",  label:"목적사업 변경등기(등기비 6/18 지출)·021 정산계좌 동일자 개설", kind:"공식적 사업전환"},
-  {ym:"2024-07", src:"card", label:"개인사업자 계좌(카뱅6132) 개설·알리바바 샘플 매입 개시", kind:"채널 인프라 구축"},
-  {ym:"2024-09", src:"ibk",  label:"정보시스템감리 교육비 109만", kind:"전문성 투자"},
-  {ym:"2024-09", src:"card", label:"케톤기기 본매입 집중(100개×2 등 490만, 카드1209)", kind:"사재로 재고 투자"},
-  {ym:"2024-11", src:"ibk",  label:"이커머스 정산 개시·석은영 인건비(신고)", kind:"이커머스 가동"},
-  {ym:"2024-11", src:"card", label:"기기 측정단위 결함 규명·반품 협상(공급사 채팅)", kind:"품질 사유 정리"},
-  {ym:"2024-12", src:"ibk",  label:"네이버 광고비 집행 개시", kind:"이커머스 가동"},
-  {ym:"2025-01", src:"ibk",  label:"퍼센티(멀티채널 솔루션)·아르고(풀필먼트) 결제", kind:"멀티채널 표준 운영"},
-  {ym:"2025-03", src:"card", label:"lozee.netlify.app 첫 커밋(20250311) 신경다양성을 위한 발화, 커뮤니케이션 도구 소프트웨어화", kind:"사업 연속성"},
-  {ym:"2025-03", src:"ibk",  label:"정기 보수 중단(마지막 488만)·대표 개인자금 수혈 개시(같은 주)", kind:"사재 투입"},
-  {ym:"2025-04", src:"card", label:"대표 무보수 전환, 5월부터 45만(세무사 카톡 확인)", kind:"소셜벤처 및 사회적기업 준비"}
+  {ym:"2024-06", src:"ibk",  label:"목적사업 변경등기·021 정산계좌 동일자 개설", kind:"공식 사업전환"},
+  {ym:"2024-07", src:"kakao",label:"개인사업자 통장(카뱅6132) 개설·오키드영 가동 시작", kind:"채널 인프라"},
+  {ym:"2024-09", src:"kakao",label:"플랫폼 매출정산 본격 유입(쿠팡·지마켓·11번가)", kind:"독자매출 실재"},
+  {ym:"2024-09", src:"card", label:"케톤기기 본매입 집중(490만, 사재)", kind:"사재 재고투자"},
+  {ym:"2024-10", src:"kakao",label:"셔터스톡 정기결제 개시(콘텐츠 소스)·월매출 229만 피크", kind:"실운영비"},
+  {ym:"2024-11", src:"kakao",label:"네이버 광고 178만 집행·사입/풀필먼트", kind:"이커머스 가동"},
+  {ym:"2024-11", src:"ibk",  label:"IBK 021 이커머스 정산 개시·석은영 인건비(신고)", kind:"이커머스 가동"},
+  {ym:"2025-01", src:"ibk",  label:"퍼센티(멀티채널 솔루션)·아르고(풀필먼트) 결제", kind:"멀티채널 표준운영"},
+  {ym:"2025-03", src:"kakao",label:"오키드영 월매출 213만 재상승", kind:"매출 지속"},
+  {ym:"2025-03", src:"card", label:"lozee.netlify.app 첫 커밋 — 신경다양성 발화도구 소프트웨어화", kind:"사업 연속성"},
+  {ym:"2025-03", src:"ibk",  label:"정기보수 중단(마지막 488만)·대표 개인자금 수혈 개시", kind:"사재 투입"},
+  {ym:"2025-04", src:"card", label:"대표 무보수 전환(세무사 카톡 확인)", kind:"소셜벤처·사회적기업 준비"}
 ];
-const SRC_Y = {ibk: 1, sns: 2, card: 3};
-const SRC_COLOR = {ibk:"#534AB7", sns:"#D85A30", card:"#EF9F27"};
-const SRC_NAME = {ibk:"IBK 계좌", sns:"SNS", card:"개인카드"};
+const SRC_Y = {ibk:1, sns:2, card:3, kakao:4};
+const SRC_COLOR = {ibk:"#534AB7", sns:"#D85A30", card:"#EF9F27", kakao:"#1D9E75"};
+const SRC_NAME = {ibk:"IBK 계좌", sns:"SNS", card:"개인카드", kakao:"오키드영 통장"};
 
-// ---------- 상단 이벤트 띠 (산점 + 라벨) ----------
 new Chart(document.getElementById('bandChart'), {
-  type: 'scatter',
-  data: { datasets: Object.keys(SRC_Y).map(s => ({
-      label: SRC_NAME[s],
-      data: EVENTS.filter(e=>e.src===s).map(e=>({x: MONTHS.indexOf(e.ym), y: SRC_Y[s], label: e.label})),
-      backgroundColor: SRC_COLOR[s], pointRadius: 7, pointHoverRadius: 9, pointStyle: s==='sns'?'rectRot':(s==='card'?'triangle':'circle')
+  type:'scatter',
+  data:{ datasets:Object.keys(SRC_Y).map(s=>({
+      label:SRC_NAME[s],
+      data:EVENTS.filter(e=>e.src===s).map(e=>({x:MONTHS.indexOf(e.ym), y:SRC_Y[s], label:e.label})),
+      backgroundColor:SRC_COLOR[s], pointRadius:7, pointHoverRadius:9,
+      pointStyle: s==='sns'?'rectRot':(s==='card'?'triangle':(s==='kakao'?'rect':'circle'))
   }))},
-  options: { responsive:true, maintainAspectRatio:false,
+  options:{ responsive:true, maintainAspectRatio:false,
     plugins:{ legend:{position:'top', labels:{usePointStyle:true, font:{size:11}}},
       tooltip:{callbacks:{label:c=>MONTHS[c.raw.x]+' · '+c.raw.label}}},
-    scales:{ x:{min:-0.5, max:MONTHS.length-0.5, ticks:{callback:v=>MONTHS[Math.round(v)]??'', maxRotation:60, font:{size:10}, stepSize:1, autoSkip:false}, grid:{display:false}},
-      y:{min:0.4, max:3.6, ticks:{callback:v=>({1:'IBK 계좌',2:'SNS',3:'개인카드'})[v]??'', stepSize:1, font:{size:11}}, grid:{color:'#f0eee6'}}}}
+    scales:{ x:{min:-0.5, max:MONTHS.length-0.5, ticks:{callback:v=>MONTHS[Math.round(v)]??'', maxRotation:60, font:{size:9}, stepSize:1, autoSkip:false}, grid:{display:false}},
+      y:{min:0.4, max:4.6, ticks:{callback:v=>({1:'IBK',2:'SNS',3:'개인카드',4:'오키드영'})[v]??'', stepSize:1, font:{size:11}}, grid:{color:'#f0eee6'}}}}
 });
 
-// ---------- 비용 차트 (탭 전환) ----------
-let costChart = null;
+let costChart=null;
 function buildStacked(canvasId, dataObj, colors, unitLabel){
-  const ds = Object.keys(dataObj).map((k,i)=>({label:k, data:dataObj[k].map(M), backgroundColor:colors[i], stack:'s'}));
-  return new Chart(document.getElementById(canvasId), { type:'bar',
+  const ds=Object.keys(dataObj).map((k,i)=>({label:k, data:dataObj[k].map(M), backgroundColor:colors[i], stack:'s'}));
+  return new Chart(document.getElementById(canvasId), {type:'bar',
     data:{labels:MONTHS, datasets:ds},
     options:{responsive:true, maintainAspectRatio:false,
       plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+Math.round(c.raw*1000000).toLocaleString()+'원'}}},
-      scales:{x:{stacked:true, ticks:{autoSkip:false, maxRotation:60, font:{size:10}}, grid:{display:false}},
+      scales:{x:{stacked:true, ticks:{autoSkip:false, maxRotation:60, font:{size:9}}, grid:{display:false}},
         y:{stacked:true, title:{display:true, text:unitLabel}}}}});
 }
 function legendHtml(dataObj, colors){
   return Object.keys(dataObj).map((k,i)=>{
-    const tot = dataObj[k].reduce((a,b)=>a+b,0);
+    const tot=dataObj[k].reduce((a,b)=>a+b,0);
     return `<span><span class="sw" style="background:${colors[i]}"></span>${k} ${tot>0?(tot/1e8>=1?(tot/1e8).toFixed(2)+'억':Math.round(tot/1e4).toLocaleString()+'만'):'—'}</span>`;
   }).join('');
 }
 function showCost(which){
   document.getElementById('tabIbk').classList.toggle('on', which==='ibk');
   document.getElementById('tabCard').classList.toggle('on', which==='card');
+  document.getElementById('tabKakao').classList.toggle('on', which==='kakao');
   if(costChart) costChart.destroy();
-  const [d,c] = which==='ibk' ? [IBK_COST, IBK_COLORS] : [CARD_MONTHLY, CARD_COLORS];
-  document.getElementById('costLegend').innerHTML = legendHtml(d,c);
-  costChart = buildStacked('costChart', d, c, '백만원');
+  let d,c;
+  if(which==='ibk'){d=IBK_COST;c=IBK_COLORS;}
+  else if(which==='card'){d=CARD_MONTHLY;c=CARD_COLORS;}
+  else {d=KAKAO_COST;c=KAKAO_COLORS;}
+  document.getElementById('costLegend').innerHTML=legendHtml(d,c);
+  costChart=buildStacked('costChart', d, c, '백만원');
 }
 showCost('ibk');
 
-// ---------- 매출 차트 ----------
+new Chart(document.getElementById('kakaoChart'), {
+  type:'bar',
+  data:{labels:MONTHS, datasets:[
+    {label:'플랫폼 매출정산', data:KAKAO_REV.map(M), backgroundColor:'#1D9E75'},
+    {label:'운영비 합계', data:MONTHS.map((_,i)=>M(Object.values(KAKAO_COST).reduce((s,a)=>s+a[i],0))), backgroundColor:'#D85A30'}
+  ]},
+  options:{responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+Math.round(c.raw*1000000).toLocaleString()+'원'}}},
+    scales:{x:{ticks:{autoSkip:false, maxRotation:60, font:{size:9}}, grid:{display:false}}, y:{title:{display:true, text:'백만원'}}}}
+});
+
 buildStacked('revChart', REV, REV_COLORS, '백만원');
 
-// ---------- 이벤트 표 ----------
-document.querySelector('#evtTable tbody').innerHTML = EVENTS.map(e=>
+const EXTRACT=[
+  {n:"조광희 (외부 영업·비특수관계)", v:11955636, c:"#534AB7"},
+  {n:"정성연 (시뮬 근무·산출물)", v:16703950, c:"#9b8fe0"},
+  {n:"석은영 (이커머스 건당 용역)", v:12571000, c:"#D85A30"},
+  {n:"정민하 (자문·영업)", v:25454000, c:"#888780"}
+];
+const exMax=Math.max(...EXTRACT.map(e=>e.v));
+document.getElementById('extractBars').innerHTML=EXTRACT.map(e=>
+  `<div class="barrow"><span>${e.n}</span><div class="track"><div class="fill" style="width:${Math.round(e.v/exMax*100)}%;background:${e.c}"></div></div><span style="text-align:right">${Math.round(e.v/1e4).toLocaleString()}만</span></div>`).join('');
+
+document.querySelector('#evtTable tbody').innerHTML=EVENTS.map(e=>
   `<tr><td>${e.ym}</td><td><span class="src-tag src-${e.src}">${SRC_NAME[e.src]}</span></td><td>${e.label}</td><td>${e.kind}</td></tr>`).join('');
 </script>
 </body>
