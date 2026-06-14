@@ -8,7 +8,7 @@
 <style>
   :root{
     --purple:#534AB7; --purple-l:#9b8fe0; --teal:#1D9E75; --teal-l:#5DCAA5;
-    --coral:#D85A30; --amber:#EF9F27; --pink:#D4537E; --gray:#888780;
+    --coral:#D85A30; --amber:#EF9F27; --gold:#C9A227; --pink:#D4537E; --gray:#888780;
     --ink:#222; --muted:#666; --line:#e2e0d8; --bg:#faf9f5;
   }
   *{box-sizing:border-box; margin:0;}
@@ -20,6 +20,7 @@
   h2.coral{border-left-color:var(--coral);}
   h2.teal{border-left-color:var(--teal);}
   .note{font-size:13px; color:var(--muted); margin-bottom:10px;}
+  .method{font-size:11px; color:#9a988f; font-style:italic; margin-bottom:12px;}
   .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin:18px 0 6px;}
   .card{background:#fff; border:1px solid var(--line); border-radius:10px; padding:14px 16px;}
   .card.hot{border-color:var(--coral); border-width:2px;}
@@ -30,16 +31,13 @@
   .panel{background:#fff; border:1px solid var(--line); border-radius:12px; padding:18px; margin-top:14px;}
   .tabs{display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;}
   .tab{padding:7px 16px; border:1px solid var(--line); border-radius:20px; background:#fff; cursor:pointer; font-size:13px; font-weight:600; color:var(--muted);}
-  .tab.on{background:var(--purple); border-color:var(--purple); color:#fff;}
-  .tab.amber.on{background:var(--coral); border-color:var(--coral);}
-  .tab.teal.on{background:var(--teal); border-color:var(--teal);}
+  .tab.on{background:var(--coral); border-color:var(--coral); color:#fff;}
   .legend{display:flex; flex-wrap:wrap; gap:14px; font-size:12px; color:var(--muted); margin:6px 0 8px;}
   .legend span{display:flex; align-items:center; gap:5px;}
   .sw{width:10px; height:10px; border-radius:2px; display:inline-block;}
   .chartbox{position:relative; width:100%; height:300px;}
   .bandbox{position:relative; width:100%; height:150px;}
-  .phasebar{display:flex; border-radius:8px; overflow:hidden; font-size:12px; text-align:center; margin-top:10px;}
-  .phasebar div{padding:8px 4px;}
+  .cap{font-size:12px; color:var(--coral); font-weight:600; margin-top:8px;}
   .src-tag{display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; margin-right:6px;}
   .src-ibk{background:#EEEDFE; color:#3C3489;}
   .src-sns{background:#FAECE7; color:#993C1D;}
@@ -56,12 +54,20 @@
   .vs .seen h3{color:#3C3489;} .vs .real h3{color:#085041;}
   .vs ul{margin:0; padding-left:18px; font-size:13px;}
   .vs li{margin-bottom:5px;}
-  .bars{display:flex; flex-direction:column; gap:8px; margin-top:8px;}
-  .barrow{display:grid; grid-template-columns:150px 1fr 90px; align-items:center; gap:8px; font-size:12px;}
-  .barrow .track{background:#f0eee6; border-radius:6px; height:20px; overflow:hidden;}
+  .bars{display:flex; flex-direction:column; gap:6px; margin-top:8px;}
+  .barrow{display:grid; grid-template-columns:230px 1fr 84px; align-items:center; gap:10px; font-size:12px; padding:2px 4px; border-radius:6px;}
+  .barrow.unseen{background:#FAECE7;}
+  .barrow .who{display:flex; flex-direction:column; gap:1px;}
+  .barrow .who b{font-weight:700;}
+  .barrow .who small{color:var(--muted); font-size:11px;}
+  .un{display:inline-block; font-size:10px; font-weight:700; color:#993C1D;}
+  .barrow .track{background:#f0eee6; border-radius:6px; height:18px; overflow:hidden;}
   .barrow .fill{height:100%; border-radius:6px;}
+  .barrow .amt{text-align:right; font-variant-numeric:tabular-nums; color:#555;}
+  .summary{margin-top:14px; font-size:12.5px; color:#333; border-top:1px solid var(--line); padding-top:10px; line-height:1.7;}
+  .summary b{color:var(--coral);}
   .foot{margin-top:40px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:14px;}
-  @media(max-width:640px){ .vs{grid-template-columns:1fr;} .barrow{grid-template-columns:110px 1fr 70px;} }
+  @media(max-width:640px){ .vs{grid-template-columns:1fr;} .barrow{grid-template-columns:150px 1fr 70px;} }
 </style>
 </head>
 <body>
@@ -106,34 +112,7 @@
   <div class="bandbox"><canvas id="bandChart" role="img" aria-label="소스별 사업 이벤트 시간축 산점도"></canvas></div>
 </div>
 
-<h2>③ 비용의 성격 변화 — 자금원 전환</h2>
-<p class="note">법인계좌(신보 보유분) · 개인카드(사재) · 오키드영 통장(신보 미열람)을 같은 축에서 비교. 광고·콘텐츠비의 본체는 법인계좌 밖에 있다. IBK "맹난영 앞 출금" 1.04억은 정기보수(0.93억)+실비정산(0.06억)+잔여로 전량 분해됨.</p>
-<div class="panel">
-  <div class="tabs">
-    <button class="tab on" id="tabIbk" onclick="showCost('ibk')">법인계좌 (신보 보유)</button>
-    <button class="tab amber" id="tabCard" onclick="showCost('card')">개인카드 (사재·입력대기)</button>
-    <button class="tab teal" id="tabKakao" onclick="showCost('kakao')">오키드영 통장 (신보 미열람)</button>
-  </div>
-  <div class="legend" id="costLegend"></div>
-  <div class="chartbox"><canvas id="costChart" role="img" aria-label="자금원별 월별 비용 누적막대"></canvas></div>
-  <div class="phasebar">
-    <div style="flex:10;background:#EEEDFE;color:#3C3489;">1. 데이터용역기<br>23.08~24.05 · 프리랜서 인건비</div>
-    <div style="flex:5;background:#E1F5EE;color:#085041;">2. 피벗 착수<br>24.06 등기 + 021계좌 개설</div>
-    <div style="flex:14;background:#FAEEDA;color:#633806;">3. 이커머스 본격화<br>24.11~25.12 · 광고·개인사업자·채널다변화</div>
-  </div>
-</div>
-
-<h2 class="teal">④ 신보 미열람 채널 — 오키드영 독자매출 vs 운영비</h2>
-<p class="note">개인사업자 통장(카뱅) 실거래. 매출(플랫폼 정산)과 운영비(셔터스톡·광고·사입)가 같이 움직인다 — 정상적 이커머스 운영의 형태. 이 매출원은 신보 자료에 전혀 등장하지 않는다.</p>
-<div class="panel">
-  <div class="legend">
-    <span><span class="sw" style="background:#1D9E75"></span>플랫폼 매출정산(쿠팡·지마켓·11번가)</span>
-    <span><span class="sw" style="background:#D85A30"></span>운영비(셔터스톡·광고·사입·풀필)</span>
-  </div>
-  <div class="chartbox"><canvas id="kakaoChart" role="img" aria-label="오키드영 월별 매출과 운영비 비교"></canvas></div>
-</div>
-
-<h2>⑤ 매출의 성격 변화 (전 채널 종합)</h2>
+<h2>③ 매출의 성격 변화 (전 채널 종합)</h2>
 <div class="panel">
   <div class="legend">
     <span><span class="sw" style="background:#9b8fe0"></span>용역(복덕판·외주수임)</span>
@@ -145,11 +124,39 @@
   <div class="chartbox"><canvas id="revChart" role="img" aria-label="채널별 월별 매출 누적막대"></canvas></div>
 </div>
 
-<h2 class="coral">⑥ "왜 석은영만?" — 부분 발췌의 구조</h2>
-<p class="note">시뮬라크르에이트의 출금 거래상대처는 70곳. 신보는 이 중 특수관계인 소수만 골라 "환류"로 프레이밍한다. 거래의 절대다수는 정상 거래처이며, 외부 영업(조광희)에 대한 지급이 쟁점이 된 가족 지급보다 크다.</p>
+<h2>④ 비용의 성격 변화 — 계정과목 타임라인</h2>
+<p class="note">비용도 매출과 동일 시간축에서 보면 피벗과 맞물린다. 초기(2023)는 복덕판 외주용역·설비, 피벗 후(2024.6~)는 자문·사입·광고로 비용 성격이 이동한다. 특히 <b>대표 정기보수는 2025.3을 끝으로 끊긴다</b> — 소프트웨어 개발 전환과 함께 인건비를 45만원/월로 처리, 사실상 무보수.</p>
 <div class="panel">
-  <div class="bars" id="extractBars"></div>
-  <p class="note" style="margin-top:10px;">※ 조광희(외부 영업, 비특수관계) 단일 지급이 석은영 지급을 상회 → "가족이라서 문제"라는 전제 자체가 성립하지 않음(동일 성격 비특수관계 지급 존재).</p>
+  <div class="tabs">
+    <button class="tab on" id="tWith" onclick="tl(true)">대표 정기보수 포함</button>
+    <button class="tab" id="tNo" onclick="tl(false)">제외(거래처만)</button>
+  </div>
+  <div class="legend" id="tlLegend"></div>
+  <div class="chartbox"><canvas id="tlChart" role="img" aria-label="계정과목별 월별 비용 누적막대"></canvas></div>
+  <p class="cap">▼ 2025.03 대표 정기보수 종료 — 인건비 지출 사실상 소멸(45만/월). 자금 유출이 아니라 자기 보수 중단.</p>
+</div>
+
+<h2 class="teal">⑤ 신보 미열람 채널 — 오키드영 독자매출 vs 운영비</h2>
+<p class="note">개인사업자 통장(카뱅) 실거래. 매출(플랫폼 정산)과 운영비(셔터스톡·광고·사입)가 같이 움직인다 — 정상적 이커머스 운영의 형태. 이 매출원은 신보 자료에 전혀 등장하지 않는다.</p>
+<div class="panel">
+  <div class="legend">
+    <span><span class="sw" style="background:#1D9E75"></span>플랫폼 매출정산(쿠팡·지마켓·11번가)</span>
+    <span><span class="sw" style="background:#D85A30"></span>운영비(셔터스톡·광고·사입·풀필)</span>
+  </div>
+  <div class="chartbox"><canvas id="kakaoChart" role="img" aria-label="오키드영 월별 매출과 운영비 비교"></canvas></div>
+</div>
+
+<h2 class="coral">⑥ 비용 총합 — 계정과목별 (신보가 본 부분 + 미열람 채널)</h2>
+<p class="note">색은 계정과목. 신보가 "가족 환류"로 지목한 지급은 <b>외주용역(teal)</b> 9건 중 하나로 색까지 같아 분포에 묻힌다. 대표 정기보수를 포함하면 모든 거래처 지급이 그 아래로 작아진다.</p>
+<p class="method">IBK 014·021 출금 거래처분. 자기계좌이체·국세·4대보험료·카드정산·기부 제외. 개인카드·오키드영(연분홍 박스 = 신보 미열람)은 채널 합계(현 자료 기준, 해외 상세는 카드사 연동 시 갱신).</p>
+<div class="panel">
+  <div class="tabs">
+    <button class="tab on" id="bWith" onclick="draw(true)">대표 정기보수 포함</button>
+    <button class="tab" id="bNo" onclick="draw(false)">거래처만</button>
+  </div>
+  <div class="legend" id="barLegend"></div>
+  <div class="bars" id="costBars"></div>
+  <div class="summary" id="costSum"></div>
 </div>
 
 <h2>⑦ 이벤트 원장</h2>
@@ -165,41 +172,7 @@
 const MONTHS = ["2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12"];
 const M = v => Math.round(v/10000)/100;
 
-const IBK_COST = {
-    "프리랜서·인건비(신고)":[0,32221090,0,0,0,0,0,0,0,0,0,0,0,4219636,0,6769000,5802000,0,0,0,0,0,0,0,0,0,0,0,0],
-    "구매대행(개인사업자)":[0,0,0,0,0,0,0,0,0,0,0,0,560280,1500000,1000000,1000000,2500000,3000000,5000000,1000000,2200000,0,0,0,0,0,0,0,0],
-    "광고비(네이버)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1100000,1500000,1000000,500000,600000,0,0,0,0,0,0,0,0],
-    "솔루션·물류·반품":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20849,15065,665950,28000,30400,0,0,0,0,0,0,0,0,0],
-    "영업·교육·특허·등기":[0,0,152240,0,0,0,0,2254720,0,0,195140,0,152240,7689000,0,0,0,0,4400000,0,0,0,0,0,0,0,0,0,0]
-  };
-const IBK_COLORS = ["#534AB7","#EF9F27","#D4537E","#5DCAA5","#888780"];
-
-const CARD_MONTHLY = {
-    "재고매입(알리바바·카드)":[0,0,0,0,0,0,0,0,0,0,0,667803,421594,4901762,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    "광고비(메타/인스타)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,368079,1094691,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    "솔루션·SaaS":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    "기타 운영비":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
-  };
-const CARD_COLORS = ["#EF9F27","#D4537E","#D85A30","#1D9E75","#888780"];
-
-const KAKAO_COST = {
-    "콘텐츠소스(셔터스톡 정기)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,146179,144824,0,145603,145546,145345,145331,0,145657,42751,0,42670,42663,0,0],
-    "광고(네이버·오키드영)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1778000,320000,50000,30000,70000,120000,0,0,0,0,0,0,0,0],
-    "사입·풀필먼트":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,200000,700000,0,0,0,0,140000,0,270000,0,0,0,0,0,0],
-    "기타 운영비":[0,0,0,0,0,0,0,0,0,0,0,0,0,141000,60290,0,45000,0,52700,2700,10000,0,3700,105000,0,0,0,0,0]
-  };
-const KAKAO_COLORS = ["#1D9E75","#D85A30","#EF9F27","#888780"];
-
-const REV = {
-    "용역(복덕판·외주수임)":[0,16500000,40700000,11000000,38500000,12100000,11000000,11000000,11000000,11000000,10000000,12100000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    "용역(B2B 데이터)":[52180374,0,0,0,11000000,0,0,0,0,0,0,0,69660000,0,69660000,0,0,15480000,0,0,0,0,0,0,0,0,0,0,0],
-    "자문·지원사업":[0,0,0,0,2800000,0,0,0,0,0,1100000,11000000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    "이커머스 정산(IBK 021)":[0,0,936000,0,0,0,0,0,0,0,0,0,0,0,1,59726,0,232068,159587,200795,999418,384929,431103,0,85065,260252,0,0,0],
-    "오키드영 통장(신보 미열람)":[0,0,0,0,0,0,0,0,0,0,0,1,0,411678,2290253,1158748,1038913,396543,603680,2128322,558929,341078,694965,83068,134415,80290,26970,65065,302965]
-  };
-const REV_COLORS = ["#9b8fe0","#534AB7","#D85A30","#EF9F27","#1D9E75"];
-const KAKAO_REV = [0,0,0,0,0,0,0,0,0,0,0,1,0,411678,2290253,1158748,1038913,396543,603680,2128322,558929,341078,694965,83068,134415,80290,26970,65065,302965];
-
+/* ── ② 이벤트 소스 타임라인 ── */
 const EVENTS = [
   {ym:"2023-08", src:"card", label:"알리바바 계정 2019년부터 운영 — 과거 이커머스 업력 수출입 이력", kind:"무역 실무 선재"},
   {ym:"2023-08", src:"ibk",  label:"014 주거래계좌 개설·B2B 매출 개시", kind:"사업 실재"},
@@ -237,36 +210,44 @@ new Chart(document.getElementById('bandChart'), {
       y:{min:0.4, max:4.6, ticks:{callback:v=>({1:'IBK',2:'SNS',3:'개인카드',4:'오키드영'})[v]??'', stepSize:1, font:{size:11}}, grid:{color:'#f0eee6'}}}}
 });
 
-let costChart=null;
-function buildStacked(canvasId, dataObj, colors, unitLabel){
-  const ds=Object.keys(dataObj).map((k,i)=>({label:k, data:dataObj[k].map(M), backgroundColor:colors[i], stack:'s'}));
-  return new Chart(document.getElementById(canvasId), {type:'bar',
-    data:{labels:MONTHS, datasets:ds},
-    options:{responsive:true, maintainAspectRatio:false,
-      plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>c.dataset.label+': '+Math.round(c.raw*1000000).toLocaleString()+'원'}}},
-      scales:{x:{stacked:true, ticks:{autoSkip:false, maxRotation:60, font:{size:9}}, grid:{display:false}},
-        y:{stacked:true, title:{display:true, text:unitLabel}}}}});
-}
-function legendHtml(dataObj, colors){
-  return Object.keys(dataObj).map((k,i)=>{
-    const tot=dataObj[k].reduce((a,b)=>a+b,0);
-    return `<span><span class="sw" style="background:${colors[i]}"></span>${k} ${tot>0?(tot/1e8>=1?(tot/1e8).toFixed(2)+'억':Math.round(tot/1e4).toLocaleString()+'만'):'—'}</span>`;
-  }).join('');
-}
-function showCost(which){
-  document.getElementById('tabIbk').classList.toggle('on', which==='ibk');
-  document.getElementById('tabCard').classList.toggle('on', which==='card');
-  document.getElementById('tabKakao').classList.toggle('on', which==='kakao');
-  if(costChart) costChart.destroy();
-  let d,c;
-  if(which==='ibk'){d=IBK_COST;c=IBK_COLORS;}
-  else if(which==='card'){d=CARD_MONTHLY;c=CARD_COLORS;}
-  else {d=KAKAO_COST;c=KAKAO_COLORS;}
-  document.getElementById('costLegend').innerHTML=legendHtml(d,c);
-  costChart=buildStacked('costChart', d, c, '백만원');
-}
-showCost('ibk');
+/* ── ③ 비용 타임라인 (계정과목) ── */
+const COST_TL = {
+  "대표 정기보수":[0,5342120,4746000,4893360,4886050,4886050,5776860,4885780,4885780,4885780,4885780,4885780,3600000,6171560,4885780,4885780,4885780,4885780,4885780,4885780,0,0,0,0,0,0,0,0,0],
+  "자문":[0,0,0,0,0,0,0,0,0,0,0,6982180,0,9670000,0,0,5802000,5802000,0,0,0,0,0,0,0,0,0,0,0],
+  "4대보험 인건비":[0,0,4254410,2251760,2251760,2251760,2590130,2251650,2251650,2251650,2604420,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  "외주용역":[0,32221090,0,2882000,0,0,0,0,0,0,0,0,0,10819636,0,6769000,5802000,0,4400000,0,0,0,0,0,0,0,0,0,0],
+  "특허":[0,0,0,0,0,0,0,2254720,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  "설비·비품":[0,4822100,26863350,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+  "사입·물류":[0,0,814000,885500,0,0,0,0,0,0,0,0,560280,1500000,1000000,1000000,2500000,3594000,5000000,1000000,2200000,0,0,0,0,0,0,0,0],
+  "광고":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1100000,0,0,0,0,0,0,0,0,0,0,0,0],
+  "법률·세무·감리":[0,5500000,3300000,0,3333160,0,0,0,0,0,0,0,0,1089000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+};
+const CATCOLOR = {"대표 정기보수":"#534AB7","자문":"#9b8fe0","4대보험 인건비":"#EF9F27","외주용역":"#1D9E75","특허":"#D4537E","설비·비품":"#5DCAA5","사입·물류":"#D85A30","광고":"#C9A227","법률·세무·감리":"#888780"};
+const ORDER = ["대표 정기보수","자문","4대보험 인건비","외주용역","특허","설비·비품","사입·물류","광고","법률·세무·감리"];
 
+let tlChart=null;
+function tl(withSalary){
+  document.getElementById('tWith').classList.toggle('on',withSalary);
+  document.getElementById('tNo').classList.toggle('on',!withSalary);
+  const cats=ORDER.filter(c=>withSalary||c!=='대표 정기보수');
+  document.getElementById('tlLegend').innerHTML=cats.map(c=>`<span><span class="sw" style="background:${CATCOLOR[c]}"></span>${c}</span>`).join('');
+  if(tlChart) tlChart.destroy();
+  tlChart=new Chart(document.getElementById('tlChart'),{type:'bar',
+    data:{labels:MONTHS,datasets:cats.map(c=>({label:c,data:COST_TL[c].map(M),backgroundColor:CATCOLOR[c],stack:'s'}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:x=>x.dataset.label+': '+Math.round(x.raw*1e6).toLocaleString()+'원'}}},
+      scales:{x:{stacked:true,ticks:{autoSkip:false,maxRotation:60,font:{size:9}},grid:{display:false}},y:{stacked:true,title:{display:true,text:'백만원'}}}}});
+}
+tl(true);
+
+/* ── ④ 오키드영 매출 vs 운영비 ── */
+const KAKAO_REV = [0,0,0,0,0,0,0,0,0,0,0,1,0,411678,2290253,1158748,1038913,396543,603680,2128322,558929,341078,694965,83068,134415,80290,26970,65065,302965];
+const KAKAO_COST = {
+    "콘텐츠소스(셔터스톡 정기)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,146179,144824,0,145603,145546,145345,145331,0,145657,42751,0,42670,42663,0,0],
+    "광고(네이버·오키드영)":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1778000,320000,50000,30000,70000,120000,0,0,0,0,0,0,0,0],
+    "사입·풀필먼트":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,200000,700000,0,0,0,0,140000,0,270000,0,0,0,0,0,0],
+    "기타 운영비":[0,0,0,0,0,0,0,0,0,0,0,0,0,141000,60290,0,45000,0,52700,2700,10000,0,3700,105000,0,0,0,0,0]
+  };
 new Chart(document.getElementById('kakaoChart'), {
   type:'bar',
   data:{labels:MONTHS, datasets:[
@@ -278,18 +259,77 @@ new Chart(document.getElementById('kakaoChart'), {
     scales:{x:{ticks:{autoSkip:false, maxRotation:60, font:{size:9}}, grid:{display:false}}, y:{title:{display:true, text:'백만원'}}}}
 });
 
-buildStacked('revChart', REV, REV_COLORS, '백만원');
+/* ── ⑤ 매출 성격 변화 ── */
+const REV = {
+    "용역(복덕판·외주수임)":[0,16500000,40700000,11000000,38500000,12100000,11000000,11000000,11000000,11000000,10000000,12100000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "용역(B2B 데이터)":[52180374,0,0,0,11000000,0,0,0,0,0,0,0,69660000,0,69660000,0,0,15480000,0,0,0,0,0,0,0,0,0,0,0],
+    "자문·지원사업":[0,0,0,0,2800000,0,0,0,0,0,1100000,11000000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    "이커머스 정산(IBK 021)":[0,0,936000,0,0,0,0,0,0,0,0,0,0,0,1,59726,0,232068,159587,200795,999418,384929,431103,0,85065,260252,0,0,0],
+    "오키드영 통장(신보 미열람)":[0,0,0,0,0,0,0,0,0,0,0,1,0,411678,2290253,1158748,1038913,396543,603680,2128322,558929,341078,694965,83068,134415,80290,26970,65065,302965]
+  };
+const REV_COLORS = ["#9b8fe0","#534AB7","#D85A30","#EF9F27","#1D9E75"];
+(function(){
+  const ds=Object.keys(REV).map((k,i)=>({label:k,data:REV[k].map(M),backgroundColor:REV_COLORS[i],stack:'s'}));
+  new Chart(document.getElementById('revChart'),{type:'bar',data:{labels:MONTHS,datasets:ds},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+Math.round(c.raw*1e6).toLocaleString()+'원'}}},
+      scales:{x:{stacked:true,ticks:{autoSkip:false,maxRotation:60,font:{size:9}},grid:{display:false}},y:{stacked:true,title:{display:true,text:'백만원'}}}}});
+})();
 
-const EXTRACT=[
-  {n:"조광희 (외부 영업·비특수관계)", v:11955636, c:"#534AB7"},
-  {n:"정성연 (시뮬 근무·산출물)", v:16703950, c:"#9b8fe0"},
-  {n:"석은영 (이커머스 건당 용역)", v:12571000, c:"#D85A30"},
-  {n:"정민하 (자문·영업)", v:25454000, c:"#888780"}
+/* ── ⑥ 비용 총합 (계정과목) ── */
+const SALARY = {name:'대표 정기보수(맹난영)',role:'2023.9~2025.3 매월 · 2025.4부터 0',amount:94045580,cat:'대표 정기보수'};
+const ITEMS = [
+  {name:'정민하',role:'동업법인 정산·자문(복덕판 대표)',amount:28256180,cat:'자문'},
+  {name:'집닥(주)',role:'인테리어·설비 외주',amount:26136000,cat:'설비·비품'},
+  {name:'정성연',role:'데이터 가공·산출물 · 4대보험 등록·12회 분할',amount:22959190,cat:'4대보험 인건비'},
+  {name:'석은영',role:'이커머스 건당 용역',amount:12571000,cat:'외주용역'},
+  {name:'조광희',role:'외부 영업',amount:11955636,cat:'외주용역'},
+  {name:'주식회사퀵스타',role:'풀필먼트(11회)',amount:11900000,cat:'사입·물류'},
+  {name:'가자여행',role:'출장·여행 대행',amount:11000000,cat:'외주용역'},
+  {name:'하다인',role:'외주 용역',amount:7736000,cat:'외주용역'},
+  {name:'김월숙',role:'외주 용역',amount:6200000,cat:'외주용역'},
+  {name:'법무법인인',role:'법률자문',amount:5500000,cat:'법률·세무·감리'},
+  {name:'법무법인동서양재',role:'법률자문',amount:5500000,cat:'법률·세무·감리'},
+  {name:'김동우',role:'외주 용역',amount:5274545,cat:'외주용역'},
+  {name:'박래은',role:'외주 용역',amount:5274545,cat:'외주용역'},
+  {name:'흥민무역',role:'사입·수입(6회)',amount:3060280,cat:'사입·물류'},
+  {name:'최훈민(대주하우징)',role:'외주 vendor',amount:2882000,cat:'외주용역'},
+  {name:'조병희(직플)',role:'직접배송 풀필먼트(4회)',amount:2800000,cat:'사입·물류'},
+  {name:'사무용가구',role:'비품',amount:2562000,cat:'설비·비품'},
+  {name:'오종근',role:'특허 출원·등록',amount:2254720,cat:'특허'},
+  {name:'박성민(어울림)',role:'사입 부대(4회)',amount:1699500,cat:'사입·물류'},
+  {name:'(주)펀잇쳐스',role:'비품',amount:1685100,cat:'설비·비품'},
+  {name:'정영록(한경세무회계)',role:'세무 기장',amount:1133160,cat:'법률·세무·감리'},
+  {name:'네이버(오키드영 광고)',role:'광고',amount:1100000,cat:'광고'},
+  {name:'(사)정보시스템감리',role:'감리',amount:1089000,cat:'법률·세무·감리'},
+  {name:'기타 외부거래처 5곳',role:'사입 부대 잡비(타임비·동서가구·조명·리바트·피앤케이)',amount:1896350,cat:'사입·물류'}
 ];
-const exMax=Math.max(...EXTRACT.map(e=>e.v));
-document.getElementById('extractBars').innerHTML=EXTRACT.map(e=>
-  `<div class="barrow"><span>${e.n}</span><div class="track"><div class="fill" style="width:${Math.round(e.v/exMax*100)}%;background:${e.c}"></div></div><span style="text-align:right">${Math.round(e.v/1e4).toLocaleString()}만</span></div>`).join('');
+const UNSEEN = [
+  {name:'개인카드 사재 운영비',role:'해외 알리바바 사입·메타 광고 등',amount:7453929,unseen:1,cat:'사입·물류'},
+  {name:'오키드영(카뱅) 운영비',role:'셔터스톡·광고·사입',amount:5244959,unseen:1,cat:'사입·물류'}
+];
+const won = v => v>=1e8 ? (v/1e8).toFixed(2)+'억' : Math.round(v/1e4).toLocaleString()+'만';
 
+function draw(withSalary){
+  document.getElementById('bWith').classList.toggle('on',withSalary);
+  document.getElementById('bNo').classList.toggle('on',!withSalary);
+  let rows=[...ITEMS,...UNSEEN]; if(withSalary) rows=[SALARY,...rows];
+  rows.sort((a,b)=>b.amount-a.amount);
+  const max=rows[0].amount;
+  document.getElementById('barLegend').innerHTML=ORDER.filter(c=>withSalary||c!=='대표 정기보수')
+    .map(c=>`<span><span class="sw" style="background:${CATCOLOR[c]}"></span>${c}</span>`).join('');
+  document.getElementById('costBars').innerHTML=rows.map(e=>
+    `<div class="barrow${e.unseen?' unseen':''}"><span class="who"><b>${e.name}</b><small>${e.role}</small>${e.unseen?'<span class="un">신보 미열람</span>':''}</span>`+
+    `<div class="track"><div class="fill" style="width:${Math.round(e.amount/max*100)}%;background:${CATCOLOR[e.cat]}"></div></div>`+
+    `<span class="amt">${won(e.amount)}</span></div>`).join('');
+  const jdong=ITEMS.find(e=>e.name==='정민하').amount, sy=12571000;
+  document.getElementById('costSum').innerHTML= withSalary
+    ? `대표 정기보수 ${won(SALARY.amount)}가 단연 최대 — 정민하(${won(jdong)})·집닥·외주용역 전부 그 아래로 작아진다. 신보가 "가족 환류"로 지목한 석은영(${won(sy)})은 외주용역 9건 중 하나로 분포에 묻힌다.`
+    : `거래처만 봐도 자문(정민하)·설비(집닥)가 위, 석은영은 외주용역 색(teal) 9건 중 하나. 연분홍 박스(개인카드·오키드영)는 신보가 받지 못한 지출층이다.`;
+}
+draw(true);
+
+/* ── ⑦ 이벤트 원장 ── */
 document.querySelector('#evtTable tbody').innerHTML=EVENTS.map(e=>
   `<tr><td>${e.ym}</td><td><span class="src-tag src-${e.src}">${SRC_NAME[e.src]}</span></td><td>${e.label}</td><td>${e.kind}</td></tr>`).join('');
 </script>
