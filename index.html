@@ -67,6 +67,16 @@
   .summary{margin-top:14px; font-size:12.5px; color:#333; border-top:1px solid var(--line); padding-top:10px; line-height:1.7;}
   .summary b{color:var(--coral);}
   .foot{margin-top:40px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:14px;}
+  .tldesc{font-size:12px; color:#555; background:#fff; border:1px solid var(--line); border-radius:8px; padding:11px 13px; margin:6px 0 12px; line-height:1.65;}
+  .tldesc b{color:var(--purple);}
+  .tlwrap{margin-top:4px;}
+  .tl{position:relative; margin-left:8px; border-left:2px solid var(--line);}
+  .tlitem{display:grid; grid-template-columns:74px 1fr; gap:13px; padding:9px 0 9px 18px; position:relative;}
+  .tlitem::before{content:''; position:absolute; left:-8px; top:13px; width:13px; height:13px; border-radius:50%; background:#fff; border:2.5px solid var(--purple);}
+  .tlitem.full::before{border-color:var(--teal);}
+  .tldate{font-weight:700; font-size:12px; color:var(--muted); padding-top:1px;}
+  .tlbody{font-size:13px; line-height:1.5;}
+  .tlkind{font-size:11px; color:var(--muted); margin-top:2px;}
   @media(max-width:640px){ .vs{grid-template-columns:1fr;} .barrow{grid-template-columns:150px 1fr 70px;} }
 </style>
 </head>
@@ -106,10 +116,19 @@
   </div>
 </div>
 
-<h2>② 신보가 열람한 소스 — 동일 시간축 이벤트</h2>
-<p class="note"><span class="src-tag src-ibk">IBK 계좌</span>신보 수령 자료 기재 &nbsp; <span class="src-tag src-sns">SNS</span>신보가 캡처 제출(열람 자백) &nbsp; <span class="src-tag src-card">개인카드</span>대표 사재 &nbsp; <span class="src-tag src-kakao">오키드영 통장</span>신보 미열람 이커머스</p>
+<h2 class="coral">② 시간순 히스토리 — 원고가 보유·열람한 범위 vs 전체</h2>
+<p class="note">같은 사업전환을 시간순으로 본다. 탭을 바꾸면 <b>신보가 보유·열람한 자료 범위</b>와 <b>실제 전체</b>가 어떻게 다른지 드러난다.</p>
 <div class="panel">
-  <div class="bandbox"><canvas id="bandChart" role="img" aria-label="소스별 사업 이벤트 시간축 산점도"></canvas></div>
+  <div class="tabs">
+    <button class="tab on" id="hSeen" onclick="hist('seen')">원고 보유·열람</button>
+    <button class="tab" id="hFull" onclick="hist('full')">전체</button>
+  </div>
+  <div class="tldesc" id="histDesc"></div>
+  <div class="legend">
+    <span><span class="sw" style="background:#534AB7;border-radius:50%"></span>원고 보유·열람(IBK·인스타·등기·정관·사실조회)</span>
+    <span><span class="sw" style="background:#1D9E75;border-radius:50%"></span>전체에서만(미열람 사재: 차의대 학비·개인카드·카뱅 오키드영)</span>
+  </div>
+  <div class="tlwrap"><div class="tl" id="histTL"></div></div>
 </div>
 
 <h2>③ 매출의 성격 변화 (전 채널 종합)</h2>
@@ -137,7 +156,7 @@
 </div>
 
 <h2 class="teal">⑤ 신보 미열람 채널 — 오키드영 독자매출 vs 운영비</h2>
-<p class="note">개인사업자 통장(카뱅) 실거래. 매출(플랫폼 정산)과 운영비(셔터스톡·광고·사입)가 같이 움직인다 — 정상적 이커머스 운영의 형태. 이 매출원은 신보 자료에 전혀 등장하지 않는다.</p>
+<p class="note">개인사업자 통장(카뱅) 실거래. 매출(플랫폼 정산)과 운영비(셔터스톡·광고·사입)가 같이 움직인다 — 정상적 이커머스 운영의 형태. 이 매출원은 신보 자료에 전혀 등장하지 않는다. <b>운영 자금은 카뱅뿐 아니라 개인카드(하나카드 등) 사재로도 투입됐다</b> — 대표적으로 케톤 측정기 수입(402개 / USD 3,917.50)은 개인 다채널 결제로 이뤄졌고, 상세는 ⑤-b에서 본다.</p>
 <div class="panel">
   <div class="legend">
     <span><span class="sw" style="background:#1D9E75"></span>플랫폼 매출정산(쿠팡·지마켓·11번가)</span>
@@ -146,13 +165,50 @@
   <div class="chartbox"><canvas id="kakaoChart" role="img" aria-label="오키드영 월별 매출과 운영비 비교"></canvas></div>
 </div>
 
-<h2 class="coral">⑥ 비용 총합 — 계정과목별 (신보가 본 부분 + 미열람 채널)</h2>
-<p class="note">색은 계정과목. 신보가 "가족 환류"로 지목한 지급은 <b>외주용역(teal)</b> 9건 중 하나로 색까지 같아 분포에 묻힌다. 대표 정기보수를 포함하면 모든 거래처 지급이 그 아래로 작아진다.</p>
-<p class="method">IBK 014·021 출금 거래처분. 자기계좌이체·국세·4대보험료·카드정산·기부 제외. 개인카드·오키드영(연분홍 박스 = 신보 미열람)은 채널 합계(현 자료 기준, 해외 상세는 카드사 연동 시 갱신).</p>
+<h2 class="teal">⑤-b 케톤 측정기 수입·판매·품질검증 라인 — 미열람 채널의 실체</h2>
+<p class="note">⑤의 오키드영 채널은 잡화 단순 재판매가 아니라, <b>실물 해외 수입 → 플랫폼 판매 → 반품·품질검증(QC) → 공급사 환불 협의</b>까지 수행한 사업 라인이었다. 이 라인은 신보 자료(IBK 2계좌)에 전혀 등장하지 않는다.</p>
+<p class="method">출처: 알리바바 주문원장(송장 7건) + 쿠팡 판매·반품 로그 + KETON BREATH METER VOC. 결제는 카뱅·하나카드 등 다채널 분산 — 채널별 상세는 비공개(법원 제출용 보관). 기준수치는 송장 USD.</p>
+<div class="panel">
+  <div class="cards" style="margin-top:0">
+    <div class="card"><div class="k">수입 시기</div><div class="v">2024.7~9</div><div class="d">샘플 비교 → 본매입</div></div>
+    <div class="card"><div class="k">비교 소싱 모델</div><div class="v">4~5종</div><div class="d">GREENWON 등 케톤 측정기</div></div>
+    <div class="card hot"><div class="k">케톤 본체 수입</div><div class="v">402개</div><div class="d">송장 합 USD 3,917.50</div></div>
+    <div class="card"><div class="k">해외거래 업력</div><div class="v">2019~</div><div class="d">알리바바 수출입 이력</div></div>
+  </div>
+  <div class="vs" style="margin-top:16px">
+    <div class="box seen">
+      <h3>환류 가설이 예측하는 행동</h3>
+      <ul>
+        <li>받은 자금을 노무 없이 통과·인출</li>
+        <li>실물 재고·반품·QC 흔적이 남지 않음</li>
+        <li>단일 품목 형식 거래로 끝</li>
+      </ul>
+    </div>
+    <div class="box real">
+      <h3>실제 관측된 행동</h3>
+      <ul>
+        <li>케톤 측정기 <b>4~5개 모델 비교 소싱</b> → 샘플 매입 → 100개 단위 본매입 다건(전형적 수입상 패턴)</li>
+        <li>쿠팡 등 <b>판매·반품 QC 대응</b>, 공급사 환불 협의</li>
+        <li><b>혈중 케톤 측정기 기준 오차 검증</b> 수행 — 데이터 기반 품질판단</li>
+        <li>법인자금 부족분을 <b>대표 개인 다채널 결제로 충당</b>(빼간 게 아니라 더 넣음)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="summary">
+    <b>입증취지:</b> 시뮬라크르에이트는 자금환류 통로가 아니라 실물 수입·판매·품질검증을 실제 수행한 사업체였다.
+    따라서 그 대가로 지급된 대표 보수는 <b>노무의 대가</b>이지 환류가 아니며,
+    혈중 측정기 기준으로 오차를 검증한 품질판단 활동은 이후 <b>LOZEE·측정 프로토콜로 이어지는 측정·정량화 역량의 동시대 증거</b>다.
+    해외구매대행 특성상 결제가 법인계좌·개인사업자·개인카드 등 다채널로 분산된 것은 업태 표준이며, 자금 혼재가 아니다 — 오히려 단일채널(IBK)만으론 사재투입 전모가 잡히지 않는다.
+  </div>
+</div>
+
+<h2 class="coral">⑥ 비용·사재 총합 — 원고 보유·열람 vs 전체</h2>
+<p class="note">신보가 "가족 환류"로 지목한 지급은 <b>외주용역(teal)</b> 9건 중 하나로 분포에 묻힌다. 탭을 ‘전체’로 바꾸면 미열람 사재(차의대 학비·개인카드·오키드영)가 더해져, <b>대표 정기보수·차의대 사재가 최상위</b>로 올라가고 가족 지급은 더 작아진다.</p>
+<p class="method">‘원고 보유·열람’ = IBK 014·021 출금 거래처분(신보 수령). ‘전체’ = + 신보 미열람 사재(차의대 학비 개인계좌, 개인카드, 카뱅 오키드영). 자기계좌이체·국세·4대보험료·카드정산·기부 제외. 케톤 수입 전액은 다채널 분산이라 ⑤-b에 USD 송장 기준 별도 표기 — 여기 원화 분과 단순 합산하지 않는다.</p>
 <div class="panel">
   <div class="tabs">
-    <button class="tab on" id="bWith" onclick="draw(true)">대표 정기보수 포함</button>
-    <button class="tab" id="bNo" onclick="draw(false)">거래처만</button>
+    <button class="tab on" id="bSeen" onclick="draw('seen')">원고 보유·열람</button>
+    <button class="tab" id="bFull" onclick="draw('full')">전체</button>
   </div>
   <div class="legend" id="barLegend"></div>
   <div class="bars" id="costBars"></div>
@@ -172,43 +228,47 @@
 const MONTHS = ["2023-08","2023-09","2023-10","2023-11","2023-12","2024-01","2024-02","2024-03","2024-04","2024-05","2024-06","2024-07","2024-08","2024-09","2024-10","2024-11","2024-12","2025-01","2025-02","2025-03","2025-04","2025-05","2025-06","2025-07","2025-08","2025-09","2025-10","2025-11","2025-12"];
 const M = v => Math.round(v/10000)/100;
 
-/* ── ② 이벤트 소스 타임라인 ── */
+/* ── ② 시간순 히스토리 타임라인 ── */
 const EVENTS = [
-  {ym:"2023-08", src:"card", label:"알리바바 계정 2019년부터 운영 — 과거 이커머스 업력 수출입 이력", kind:"무역 실무 선재"},
-  {ym:"2023-08", src:"ibk",  label:"014 주거래계좌 개설·B2B 매출 개시", kind:"사업 실재"},
-  {ym:"2023-09", src:"sns",  label:"대표 차의대 입학 (프로필 기재)", kind:"피벗 준비"},
-  {ym:"2024-03", src:"ibk",  label:"함께웃는재단(자폐재단) 기부 개시 — 등기 3개월 전, 이후 19개월 연속", kind:"피벗 전 행적"},
-  {ym:"2024-06", src:"ibk",  label:"목적사업 변경등기·021 정산계좌 동일자 개설", kind:"공식 사업전환"},
-  {ym:"2024-07", src:"kakao",label:"개인사업자 통장(카뱅6132) 개설·오키드영 가동 시작", kind:"채널 인프라"},
-  {ym:"2024-09", src:"kakao",label:"플랫폼 매출정산 본격 유입(쿠팡·지마켓·11번가)", kind:"독자매출 실재"},
-  {ym:"2024-09", src:"card", label:"케톤기기 본매입 집중(490만, 사재)", kind:"사재 재고투자"},
-  {ym:"2024-10", src:"kakao",label:"셔터스톡 정기결제 개시(콘텐츠 소스)·월매출 229만 피크", kind:"실운영비"},
-  {ym:"2024-11", src:"kakao",label:"네이버 광고 178만 집행·사입/풀필먼트", kind:"이커머스 가동"},
-  {ym:"2024-11", src:"ibk",  label:"IBK 021 이커머스 정산 개시·석은영 인건비(신고)", kind:"이커머스 가동"},
-  {ym:"2025-01", src:"ibk",  label:"퍼센티(멀티채널 솔루션)·아르고(풀필먼트) 결제", kind:"멀티채널 표준운영"},
-  {ym:"2025-03", src:"kakao",label:"오키드영 월매출 213만 재상승", kind:"매출 지속"},
-  {ym:"2025-03", src:"card", label:"lozee.netlify.app 첫 커밋 — 신경다양성 발화도구 소프트웨어화", kind:"사업 연속성"},
-  {ym:"2025-03", src:"ibk",  label:"정기보수 중단(마지막 488만)·대표 개인자금 수혈 개시", kind:"사재 투입"},
-  {ym:"2025-04", src:"card", label:"대표 무보수 전환(세무사 카톡 확인)", kind:"소셜벤처·사회적기업 준비"}
+  {ym:"2023-01", scope:"seen", src:"sns",  label:"인스타 프로필 소개글 상시 노출: ‘서비스기획·UIUX·개발 PM … 정량화 중인 ASD 진단자’ — 자료 제출 전후 변경 없는 상수. 신보가 2023.1.28 게시물을 발췌·필적감정에 사용(정밀 열람 자백).", kind:"피벗 정체성 상시노출"},
+  {ym:"2023-07", scope:"seen", src:"sns",  label:"차의대 미술치료대학원 입학(2023 가을학기) — 인스타 2023.10 게시물에 수업·워크숍·학술제 노출", kind:"도메인 진입 선재"},
+  {ym:"2023-07", scope:"full", src:"card", label:"차의대 등록금 1차 납부 644.2만 (개인계좌 사재)", kind:"사재 투입"},
+  {ym:"2023-08", scope:"seen", src:"ibk",  label:"IBK 014 주거래계좌 개설·B2B 매출 개시", kind:"사업 실재"},
+  {ym:"2023-08", scope:"full", src:"card", label:"알리바바 계정 2019년부터 운영 — 과거 이커머스·수출입 업력", kind:"무역 실무 선재"},
+  {ym:"2024-02", scope:"full", src:"card", label:"차의대 등록금 2차 납부 569.4만 (개인계좌 사재)", kind:"사재 투입"},
+  {ym:"2024-03", scope:"seen", src:"ibk",  label:"함께웃는재단(자폐재단) 기부 개시 — 등기 3개월 전, 이후 19개월 연속", kind:"피벗 전 행적"},
+  {ym:"2024-06", scope:"seen", src:"ibk",  label:"목적사업 변경등기(미술치료·해외직구·교육지원 등 10종 추가)·IBK 021 정산계좌 동일자 개설", kind:"공식 사업전환"},
+  {ym:"2024-07", scope:"full", src:"kakao",label:"개인사업자 통장(카뱅6132) 개설·오키드영 가동 시작", kind:"미열람 채널"},
+  {ym:"2024-07", scope:"full", src:"card", label:"케톤 측정기 샘플 비교소싱 개시 — 4~5개 모델(알리바바)", kind:"사재 소싱"},
+  {ym:"2024-09", scope:"full", src:"kakao",label:"오키드영 플랫폼 매출정산 본격 유입(쿠팡·지마켓·11번가)", kind:"독자매출 실재"},
+  {ym:"2024-09", scope:"full", src:"card", label:"케톤 본매입 집중 — 누적 402개 / USD 3,917.50 (개인 다채널 사재)", kind:"사재 재고투자"},
+  {ym:"2024-11", scope:"seen", src:"ibk",  label:"IBK 021 이커머스 정산 개시", kind:"이커머스 가동"},
+  {ym:"2025-03", scope:"full", src:"card", label:"lozee.netlify.app 첫 커밋 — 신경다양성 발화 정량화 소프트웨어", kind:"사업 연속성"},
+  {ym:"2025-03", scope:"seen", src:"ibk",  label:"대표 정기보수 중단·대표 개인자금 수혈 개시", kind:"사재 투입"},
+  {ym:"2025-06", scope:"seen", src:"sns",  label:"신경다양성 설문 실집행 — 286명 사례비(인스타 설문 안내 게시)", kind:"설문 실집행"},
+  {ym:"2025-08", scope:"seen", src:"sns",  label:"자체 앱(미세먼지 정량화) 구글 플레이 비공개 테스트·인스타 테스터 모집 게시", kind:"제품 R&D 실집행"}
 ];
-const SRC_Y = {ibk:1, sns:2, card:3, kakao:4};
 const SRC_COLOR = {ibk:"#534AB7", sns:"#D85A30", card:"#EF9F27", kakao:"#1D9E75"};
-const SRC_NAME = {ibk:"IBK 계좌", sns:"SNS", card:"개인카드", kakao:"오키드영 통장"};
+const SRC_NAME = {ibk:"IBK 계좌", sns:"SNS/인스타", card:"개인카드", kakao:"오키드영 통장"};
 
-new Chart(document.getElementById('bandChart'), {
-  type:'scatter',
-  data:{ datasets:Object.keys(SRC_Y).map(s=>({
-      label:SRC_NAME[s],
-      data:EVENTS.filter(e=>e.src===s).map(e=>({x:MONTHS.indexOf(e.ym), y:SRC_Y[s], label:e.label})),
-      backgroundColor:SRC_COLOR[s], pointRadius:7, pointHoverRadius:9,
-      pointStyle: s==='sns'?'rectRot':(s==='card'?'triangle':(s==='kakao'?'rect':'circle'))
-  }))},
-  options:{ responsive:true, maintainAspectRatio:false,
-    plugins:{ legend:{position:'top', labels:{usePointStyle:true, font:{size:11}}},
-      tooltip:{callbacks:{label:c=>MONTHS[c.raw.x]+' · '+c.raw.label}}},
-    scales:{ x:{min:-0.5, max:MONTHS.length-0.5, ticks:{callback:v=>MONTHS[Math.round(v)]??'', maxRotation:60, font:{size:9}, stepSize:1, autoSkip:false}, grid:{display:false}},
-      y:{min:0.4, max:4.6, ticks:{callback:v=>({1:'IBK',2:'SNS',3:'개인카드',4:'오키드영'})[v]??'', stepSize:1, font:{size:11}}, grid:{color:'#f0eee6'}}}}
-});
+const HIST_DESC = {
+  seen:"<b>원고 보유·열람 범위</b> = IBK 014·021 계좌내역 + 등기부등본 + 연수세무서 정관 + 데이터진흥원 사실조회 + 인스타그램. 신보는 2023.1.28 인스타 게시물을 직접 발췌해 <b>필적감정</b>(연인관계 주장)에 썼고, 프로필 소개글(서비스기획·UIUX·개발PM·정량화·ASD 진단자)은 자료 제출 전후로 바뀌지 않은 상수다. 따라서 같은 계정 최신순으로 노출된 차의대 입학·학술제·신경다양성 설문·앱 테스터 모집을 <b>열람하지 못했다고 볼 수 없다</b>. 그럼에도 자금 단편만 발췌했다.",
+  full:"<b>전체</b> = 위 범위 + 신보 미열람 사재·채널: 차의대 등록금(개인계좌 사재 1,213만), 케톤 등 개인카드 사재, 카뱅 오키드영. 환류 가설이라면 나타나지 않을 <b>사재 투입</b>이 시간축 전반에 깔려 있다."
+};
+
+let histMode='seen';
+function hist(mode){
+  histMode=mode;
+  document.getElementById('hSeen').classList.toggle('on',mode==='seen');
+  document.getElementById('hFull').classList.toggle('on',mode==='full');
+  document.getElementById('histDesc').innerHTML=HIST_DESC[mode];
+  const rows=EVENTS.filter(e=>mode==='full'||e.scope==='seen');
+  document.getElementById('histTL').innerHTML=rows.map(e=>
+    `<div class="tlitem ${e.scope}"><div class="tldate">${e.ym}</div>`+
+    `<div class="tlbody"><span class="src-tag src-${e.src}">${SRC_NAME[e.src]}</span> ${e.label}<div class="tlkind">${e.kind}</div></div></div>`
+  ).join('');
+}
+hist('seen');
 
 /* ── ③ 비용 타임라인 (계정과목) ── */
 const COST_TL = {
@@ -222,7 +282,7 @@ const COST_TL = {
   "광고":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1100000,0,0,0,0,0,0,0,0,0,0,0,0],
   "법률·세무·감리":[0,5500000,3300000,0,3333160,0,0,0,0,0,0,0,0,1089000,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 };
-const CATCOLOR = {"대표 정기보수":"#534AB7","자문":"#9b8fe0","4대보험 인건비":"#EF9F27","외주용역":"#1D9E75","특허":"#D4537E","설비·비품":"#5DCAA5","사입·물류":"#D85A30","광고":"#C9A227","법률·세무·감리":"#888780"};
+const CATCOLOR = {"대표 정기보수":"#534AB7","자문":"#9b8fe0","4대보험 인건비":"#EF9F27","외주용역":"#1D9E75","특허":"#D4537E","설비·비품":"#5DCAA5","사입·물류":"#D85A30","광고":"#C9A227","법률·세무·감리":"#888780","교육비(사재)":"#7C4DBF"};
 const ORDER = ["대표 정기보수","자문","4대보험 인건비","외주용역","특허","설비·비품","사입·물류","광고","법률·세무·감리"];
 
 let tlChart=null;
@@ -305,29 +365,32 @@ const ITEMS = [
   {name:'기타 외부거래처 5곳',role:'사입 부대 잡비(타임비·동서가구·조명·리바트·피앤케이)',amount:1896350,cat:'사입·물류'}
 ];
 const UNSEEN = [
-  {name:'개인카드 사재 운영비',role:'해외 알리바바 사입·메타 광고 등',amount:7453929,unseen:1,cat:'사입·물류'},
+  {name:'차의과학대학교 미술치료대학원 학비',role:'개인계좌 사재 · 2023.07 644.2만 + 2024.02 569.4만',amount:12136000,unseen:1,cat:'교육비(사재)'},
+  {name:'개인카드 사재',role:'알리바바 사입·메타광고·비즈콘 등 다용도',amount:7453929,unseen:1,cat:'사입·물류'},
   {name:'오키드영(카뱅) 운영비',role:'셔터스톡·광고·사입',amount:5244959,unseen:1,cat:'사입·물류'}
 ];
+const BAR_ORDER = [...ORDER,"교육비(사재)"];
 const won = v => v>=1e8 ? (v/1e8).toFixed(2)+'억' : Math.round(v/1e4).toLocaleString()+'만';
 
-function draw(withSalary){
-  document.getElementById('bWith').classList.toggle('on',withSalary);
-  document.getElementById('bNo').classList.toggle('on',!withSalary);
-  let rows=[...ITEMS,...UNSEEN]; if(withSalary) rows=[SALARY,...rows];
+function draw(mode){
+  document.getElementById('bSeen').classList.toggle('on',mode==='seen');
+  document.getElementById('bFull').classList.toggle('on',mode==='full');
+  let rows=[SALARY,...ITEMS]; if(mode==='full') rows=[SALARY,...ITEMS,...UNSEEN];
   rows.sort((a,b)=>b.amount-a.amount);
   const max=rows[0].amount;
-  document.getElementById('barLegend').innerHTML=ORDER.filter(c=>withSalary||c!=='대표 정기보수')
+  const present=[...new Set(rows.map(r=>r.cat))];
+  document.getElementById('barLegend').innerHTML=BAR_ORDER.filter(c=>present.includes(c))
     .map(c=>`<span><span class="sw" style="background:${CATCOLOR[c]}"></span>${c}</span>`).join('');
   document.getElementById('costBars').innerHTML=rows.map(e=>
     `<div class="barrow${e.unseen?' unseen':''}"><span class="who"><b>${e.name}</b><small>${e.role}</small>${e.unseen?'<span class="un">신보 미열람</span>':''}</span>`+
     `<div class="track"><div class="fill" style="width:${Math.round(e.amount/max*100)}%;background:${CATCOLOR[e.cat]}"></div></div>`+
     `<span class="amt">${won(e.amount)}</span></div>`).join('');
   const jdong=ITEMS.find(e=>e.name==='정민하').amount, sy=12571000;
-  document.getElementById('costSum').innerHTML= withSalary
-    ? `대표 정기보수 ${won(SALARY.amount)}가 단연 최대 — 정민하(${won(jdong)})·집닥·외주용역 전부 그 아래로 작아진다. 신보가 "가족 환류"로 지목한 석은영(${won(sy)})은 외주용역 9건 중 하나로 분포에 묻힌다.`
-    : `거래처만 봐도 자문(정민하)·설비(집닥)가 위, 석은영은 외주용역 색(teal) 9건 중 하나. 연분홍 박스(개인카드·오키드영)는 신보가 받지 못한 지출층이다.`;
+  document.getElementById('costSum').innerHTML= mode==='full'
+    ? `전체 자료로 보면 대표 정기보수 ${won(SALARY.amount)}와 차의대 학비(${won(12136000)}, 개인계좌 사재)가 최상위 — 정민하(${won(jdong)})·집닥·외주용역은 그 아래. 신보가 "가족 환류"로 지목한 석은영(${won(sy)})은 외주용역 9건 중 하나로 분포에 묻힌다. 사재(차의대·개인카드·오키드영)는 환류와 정반대 벡터다.`
+    : `원고 보유·열람(IBK)만 봐도 대표 정기보수 ${won(SALARY.amount)}가 단연 최대 — 정민하(${won(jdong)})·집닥·외주용역은 그 아래. 석은영(${won(sy)})은 외주용역 9건 중 하나. 이 화면은 신보가 가진 IBK 출금분뿐이며, 미열람 사재는 ‘전체’ 탭에서 더해진다.`;
 }
-draw(true);
+draw('seen');
 
 /* ── ⑦ 이벤트 원장 ── */
 document.querySelector('#evtTable tbody').innerHTML=EVENTS.map(e=>
