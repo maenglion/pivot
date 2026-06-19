@@ -38,7 +38,7 @@
   .chartbox{position:relative; width:100%; height:300px;}
   .bandbox{position:relative; width:100%; height:150px;}
   .cap{font-size:12px; color:var(--coral); font-weight:600; margin-top:8px;}
-  .src-tag{display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; margin-right:6px;}
+  .src-tag{display:inline-block; white-space:nowrap; font-size:11px; font-weight:700; padding:2px 8px; border-radius:10px; margin-right:6px;}
   .src-ibk{background:#EEEDFE; color:#3C3489;}
   .src-sns{background:#FAECE7; color:#993C1D;}
   .src-card{background:#FAEEDA; color:#854F0B;}
@@ -354,13 +354,13 @@ const REV_COLORS = ["#9b8fe0","#534AB7","#D85A30","#EF9F27","#1D9E75"];
 /* ── ⑥ 비용 총합 (계정과목) ── */
 const SALARY = {name:'대표 정기보수(맹난영)',role:'2023.9~2025.3 매월 · 2025.4부터 0',amount:94045580,cat:'대표 정기보수'};
 const ITEMS = [
-  {name:'정민하',role:'사회적기업 컨설팅(프리랜서)',amount:28256180,cat:'자문'},
-  {name:'집닥(주)',role:'설비 외주',amount:26136000,cat:'설비·비품'},
+  {name:'정민하',role:'동업법인 정산·자문(복덕판 대표)',amount:28256180,cat:'자문'},
+  {name:'집닥(주)',role:'인테리어·설비 외주',amount:26136000,cat:'설비·비품'},
   {name:'정성연',role:'데이터 가공·산출물 · 4대보험 등록·12회 분할',amount:22959190,cat:'4대보험 인건비'},
   {name:'석은영',role:'이커머스 건당 용역',amount:12571000,cat:'외주용역'},
   {name:'조광희',role:'외부 영업',amount:11955636,cat:'외주용역'},
-  {name:'주식회사퀵스타',role:'중국 풀필먼트(11회)',amount:11900000,cat:'사입·물류'},
-  {name:'가자여행',role:'외주 영업',amount:11000000,cat:'외주용역'},
+  {name:'주식회사퀵스타',role:'풀필먼트(11회)',amount:11900000,cat:'사입·물류'},
+  {name:'가자여행',role:'출장·여행 대행',amount:11000000,cat:'외주용역'},
   {name:'하다인',role:'외주 용역',amount:7736000,cat:'외주용역'},
   {name:'김월숙',role:'외주 용역',amount:6200000,cat:'외주용역'},
   {name:'법무법인인',role:'법률자문',amount:5500000,cat:'법률·세무·감리'},
@@ -369,15 +369,15 @@ const ITEMS = [
   {name:'박래은',role:'외주 용역',amount:5274545,cat:'외주용역'},
   {name:'흥민무역',role:'사입·수입(6회)',amount:3060280,cat:'사입·물류'},
   {name:'최훈민(대주하우징)',role:'외주 vendor',amount:2882000,cat:'외주용역'},
-  {name:'조병희(직플)',role:'중국 풀필먼트(4회)',amount:2800000,cat:'사입·물류'},
+  {name:'조병희(직플)',role:'직접배송 풀필먼트(4회)',amount:2800000,cat:'사입·물류'},
   {name:'사무용가구',role:'비품',amount:2562000,cat:'설비·비품'},
   {name:'오종근',role:'특허 출원·등록',amount:2254720,cat:'특허'},
-  {name:'박성민(어울림)',role:'포장재(4회)',amount:1699500,cat:'도서인쇄비'},
+  {name:'박성민(어울림)',role:'사입 부대(4회)',amount:1699500,cat:'사입·물류'},
   {name:'(주)펀잇쳐스',role:'비품',amount:1685100,cat:'설비·비품'},
   {name:'정영록(한경세무회계)',role:'세무 기장',amount:1133160,cat:'법률·세무·감리'},
   {name:'네이버(오키드영 광고)',role:'광고',amount:1100000,cat:'광고'},
   {name:'(사)정보시스템감리',role:'감리',amount:1089000,cat:'법률·세무·감리'},
-  {name:'기타 외부거래처',role:'사입 부대 잡비(타임비·알리익스프레스·테무,쿠팡)',amount:1896350,cat:'사입·물류'}
+  {name:'기타 외부거래처 5곳',role:'사입 부대 잡비(타임비·동서가구·조명·리바트·피앤케이)',amount:1896350,cat:'사입·물류'}
 ];
 const UNSEEN = [
   {name:'차의과학대학교 미술치료대학원 학비',role:'개인계좌 사재 · 2023.07 644.2만 + 2024.02 569.4만',amount:12136000,unseen:1,cat:'교육비(사재)'},
