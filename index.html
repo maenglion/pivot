@@ -66,6 +66,10 @@
   .barrow .amt{text-align:right; font-variant-numeric:tabular-nums; color:#555;}
   .summary{margin-top:14px; font-size:12.5px; color:#333; border-top:1px solid var(--line); padding-top:10px; line-height:1.7;}
   .summary b{color:var(--coral);}
+  .readbox{background:#FBF4EF; border:1px solid #E8C9B8; border-radius:10px; padding:14px 16px; margin-top:14px; font-size:12.5px; line-height:1.7;}
+  .readbox h4{font-size:13px; color:#993C1D; margin-bottom:6px;}
+  .readbox ol{margin:0; padding-left:18px;}
+  .readbox li{margin-bottom:3px;}
   .foot{margin-top:40px; font-size:12px; color:var(--muted); border-top:1px solid var(--line); padding-top:14px;}
   .tldesc{font-size:12px; color:#555; background:#fff; border:1px solid var(--line); border-radius:8px; padding:11px 13px; margin:6px 0 12px; line-height:1.65;}
   .tldesc b{color:var(--purple);}
@@ -87,7 +91,7 @@
 <p class="sub">신용보증기금이 <b>수령한 자료(IBK 계좌내역 2개)</b>와 <b>열람·캡처한 소스(SNS)</b>만으로 식별 가능했던 흐름 vs. 실제 운영 — 동일 시간축 교차 분석</p>
 
 <div class="cards">
-  <div class="card hot"><div class="k">분석 금액 (총)</div><div class="v">7.14억원</div><div class="d">입·출금 합산 (매출 4.32억 + 비용 2.82억)</div></div>
+  <div class="card hot"><div class="k">분석 금액 (총)</div><div class="v">7.14억원</div><div class="d">매출 4.32억 + 비용 2.82억(IBK 2.76억 + 카뱅 운영비 524만)</div></div>
   <div class="card"><div class="k">분석 거래</div><div class="v">469건+</div><div class="d">IBK 014/021 + 카뱅 233건</div></div>
   <div class="card"><div class="k">거래상대처</div><div class="v">70곳</div><div class="d">해외구매대행 연계 개인사업자 외</div></div>
   <div class="card"><div class="k">기부 지속</div><div class="v">31건 / 19개월</div><div class="d">자폐재단·민생연대 매월</div></div>
@@ -109,7 +113,7 @@
     <h3>실제 운영(미열람 포함)</h3>
     <ul>
       <li>오키드영 통장: 플랫폼 매출 <b>1,031만원</b> (쿠팡·지마켓·11번가)</li>
-      <li>셔터스톡 정기결제 등 <b>실운영비 595만원</b></li>
+      <li>셔터스톡 정기결제 등 <b>실운영비 524만원</b></li>
       <li>2024.09~2025.12, 1년 4개월 연속 가동</li>
       <li>건당 사입·풀필먼트(퀵스타·직플) 반복 — 실거래</li>
     </ul>
@@ -144,7 +148,7 @@
 </div>
 
 <h2>④ 비용의 성격 변화 — 계정과목 타임라인</h2>
-<p class="note">비용도 매출과 동일 시간축에서 보면 피벗과 맞물린다. 초기(2023)는 복덕판 외주용역·설비, 피벗 후(2024.6~)는 자문·사입·광고로 비용 성격이 이동한다. 특히 <b>대표 정기보수는 2025.3을 끝으로 끊긴다</b> — 소프트웨어 개발 전환과 함께 인건비를 45만원/월로 처리, 사실상 무보수.</p>
+<p class="note">비용도 매출과 동일 시간축에서 보면 피벗과 맞물린다. 초기(2023)는 복덕판 외주용역·설비, 피벗 후(2024.6~)는 자문·사입·광고로 비용 성격이 이동한다. 특히 <b>대표 정기보수는 2025.3을 끝으로 끊긴다</b> — 2025.4 이후 법인계좌 기준 대표 정기보수는 0원으로, 소프트웨어 개발 전환과 함께 자기 보수를 중단했다.</p>
 <div class="panel">
   <div class="tabs">
     <button class="tab on" id="tWith" onclick="tl(true)">대표 정기보수 포함</button>
@@ -152,7 +156,7 @@
   </div>
   <div class="legend" id="tlLegend"></div>
   <div class="chartbox"><canvas id="tlChart" role="img" aria-label="계정과목별 월별 비용 누적막대"></canvas></div>
-  <p class="cap">▼ 2025.03 대표 정기보수 종료 — 인건비 지출 사실상 소멸(45만/월). 자금 유출이 아니라 자기 보수 중단.</p>
+  <p class="cap">▼ 2025.03 대표 정기보수 종료 — 2025.4 이후 법인계좌 기준 0원. 자금 유출이 아니라 자기 보수 중단.</p>
 </div>
 
 <h2 class="teal">⑤ 신보 미열람 채널 — 오키드영 독자매출 vs 운영비</h2>
@@ -222,8 +226,17 @@
   </div>
 </div>
 
-<h2 class="coral">⑥ 비용·사재 총합 — 원고 보유·열람 vs 전체</h2>
-<p class="note">신보가 "가족 환류"로 지목한 지급은 <b>외주용역(teal)</b> 9건 중 하나로 분포에 묻힌다. 탭을 ‘전체’로 바꾸면 미열람 사재(차의대 학비·개인카드·오키드영)가 더해져, <b>대표 정기보수·차의대 사재가 최상위</b>로 올라가고 가족 지급은 더 작아진다.</p>
+<h2 class="coral">⑥ 원고 주장 반증 인덱스 — 회계상 비용 + 미열람 사재투입</h2>
+<p class="note">이 표는 금액의 크기를 다투는 회계 장부가 아니라, <b>원고가 본 비용과 보지 못한 비용을 분리해 ‘선택적 관찰’ 여부를 확인</b>하는 인덱스다. 신보가 "가족 환류"로 지목한 지급은 <b>외주용역(teal)</b> 9건 중 하나로 분포에 묻힌다. 탭을 ‘전체’로 바꾸면 미열람 사재(차의대 학비·개인카드·오키드영)가 더해져, <b>대표 정기보수·차의대 사재가 최상위</b>로 올라가고 가족 지급은 더 작아진다. 여기서 <b>차의대 학비는 회계상 회사 비용이 아니라, 미술치료·신경다양성·측정 정량화 사업전환을 위해 대표 개인이 부담한 도메인 전환 비용</b>으로 기재한다.</p>
+<div class="readbox">
+  <h4>이 표의 판독법</h4>
+  <ol>
+    <li>금액의 크기만 보는 표가 아니다.</li>
+    <li>원고가 본 비용과 보지 못한 비용을 분리해 선택적 관찰 여부를 확인한다.</li>
+    <li>각 비용이 사업전환 시간축(②·③·④)과 맞물리는지 본다.</li>
+    <li>환류라면 설명되지 않는 사재투입·재고수입·광고·QC·테스트 비용이 존재하는지 본다.</li>
+  </ol>
+</div>
 <p class="method">‘원고 보유·열람’ = IBK 014·021 출금 거래처분(신보 수령). ‘전체’ = + 신보 미열람 사재: 차의대 학비(개인계좌), 개인카드 사재(현대카드 — Adobe 콘텐츠 구독·메타 인스타광고·오리지널모드 판촉·사입), 카뱅 오키드영. 자기계좌이체·국세·4대보험료·카드정산·기부 제외. 케톤 수입 전액은 다채널 분산이라 ⑤-b에 USD 송장 기준 별도 표기 — 여기 원화 분과 단순 합산하지 않는다. 신경다양성 설문 사례비(R&D)는 마케팅비가 아니라 ⑤-c 참조.</p>
 <div class="panel">
   <div class="tabs">
@@ -250,7 +263,7 @@ const M = v => Math.round(v/10000)/100;
 
 /* ── ② 시간순 히스토리 타임라인 ── */
 const EVENTS = [
-  {ym:"2023-01", scope:"seen", src:"sns",  label:"인스타 프로필 소개글 상시 노출: ‘서비스기획·UIUX·개발 PM … 정량화 중인 ASD 진단자’ — 자료 제출 전후 변경 없는 상수. 신보가 2023.1.28 게시물을 발췌·필적감정에 사용(정밀 열람 자백).", kind:"피벗 정체성 상시노출"},
+  {ym:"2023-01", scope:"seen", src:"sns",  label:"인스타 프로필 소개글 노출: ‘서비스기획·UIUX’ — 신보가 2023.1.25 게시물을 직접 캡처·필적감정(2026.4.15 제출)하여 이 시점 게시물·프로필을 정밀 열람한 사실이 확정됨. ‘서비스기획·UIUX’ 정체성은 이 시점에 이미 실재.", kind:"피벗 정체성 선재(신보 직접 열람분)"},
   {ym:"2023-07", scope:"seen", src:"sns",  label:"차의대 미술치료대학원 입학(2023 가을학기) — 인스타 2023.10 게시물에 수업·워크숍·학술제 노출", kind:"도메인 진입 선재"},
   {ym:"2023-07", scope:"full", src:"card", label:"차의대 등록금 1차 납부 644.2만 (개인계좌 사재)", kind:"사재 투입"},
   {ym:"2023-07", scope:"full", src:"card", label:"Adobe(Creative Cloud·Photoshop) 구독 개시 — 콘텐츠·디자인 도구 2년 반 연속(현대카드 사재)", kind:"콘텐츠 운영"},
@@ -264,17 +277,18 @@ const EVENTS = [
   {ym:"2024-09", scope:"full", src:"kakao",label:"오키드영 플랫폼 매출정산 본격 유입(쿠팡·지마켓·11번가)", kind:"독자매출 실재"},
   {ym:"2024-09", scope:"full", src:"card", label:"케톤 본매입 집중 — 누적 402개 / USD 3,917.50 (개인 다채널 사재)", kind:"사재 재고투자"},
   {ym:"2024-09", scope:"full", src:"card", label:"오리지널모드 쇼핑몰 메타(인스타) 광고 집행 개시 — 현대카드 사재(~2025.04 누적 260만)", kind:"마케팅 실집행"},
+  {ym:"2024-10", scope:"seen", src:"sns",  label:"차의대 학술제 인스타 게시 — 신보가 거슬러 도달한 2023.1.25보다 최신(상위) 게시물이므로 캡처 과정에서 시야를 거친 것으로 봄", kind:"열람 범위 내(역순)"},
   {ym:"2024-11", scope:"seen", src:"ibk",  label:"IBK 021 이커머스 정산 개시", kind:"이커머스 가동"},
   {ym:"2025-03", scope:"full", src:"card", label:"LOZEE(시맨틱·LLM 감정분석) netlify 배포 — 이후 소울스펙트럼에서 음성신호 정량화 CASP로 전환", kind:"R&D 연속성"},
   {ym:"2025-03", scope:"seen", src:"ibk",  label:"대표 정기보수 중단·대표 개인자금 수혈 개시", kind:"사재 투입"},
-  {ym:"2025-06", scope:"seen", src:"sns",  label:"신경다양성 설문 실집행 — 286명 사례비(인스타 설문 안내 게시)", kind:"설문 실집행"},
-  {ym:"2025-08", scope:"seen", src:"sns",  label:"자체 앱(미세먼지 정량화) 구글 플레이 비공개 테스트·인스타 테스터 모집 게시", kind:"제품 R&D 실집행"}
+  {ym:"2025-06", scope:"seen", src:"sns",  label:"신경다양성 설문 실집행 — 286명 사례비(인스타 설문 안내 게시). 2023.1.25보다 최신 게시물 → 캡처 과정에서 시야를 거친 것으로 봄", kind:"설문 실집행(열람 범위 내)"},
+  {ym:"2025-08", scope:"seen", src:"sns",  label:"자체 앱(미세먼지 정량화) 구글 플레이 비공개 테스트·인스타 테스터 모집 게시. 2023.1.25보다 최신 게시물 → 캡처 과정에서 시야를 거친 것으로 봄", kind:"제품 R&D 실집행(열람 범위 내)"}
 ];
 const SRC_COLOR = {ibk:"#534AB7", sns:"#D85A30", card:"#EF9F27", kakao:"#1D9E75"};
 const SRC_NAME = {ibk:"IBK 계좌", sns:"SNS/인스타", card:"개인카드", kakao:"오키드영 통장"};
 
 const HIST_DESC = {
-  seen:"<b>원고 보유·열람 범위</b> = IBK 014·021 계좌내역 + 등기부등본 + 연수세무서 정관 + 데이터진흥원 사실조회 + 인스타그램. 신보는 2023.1.28 인스타 게시물을 직접 발췌해 <b>필적감정</b>(연인관계 주장)에 썼고, 프로필 소개글(서비스기획·UIUX·개발PM·정량화·ASD 진단자)은 자료 제출 전후로 바뀌지 않은 상수다. 따라서 같은 계정 최신순으로 노출된 차의대 입학·학술제·신경다양성 설문·앱 테스터 모집을 <b>열람하지 못했다고 볼 수 없다</b>. 그럼에도 자금 단편만 발췌했다.",
+  seen:"<b>원고 보유·열람 범위</b> = IBK 014·021 계좌내역 + 등기부등본 + 연수세무서 정관 + 데이터진흥원 사실조회 + 인스타그램. 신보는 <b>2023.1.25 인스타 게시물을 직접 캡처해 필적감정에 사용하고 2026.4.15 제출</b>했다. 인스타그램은 <b>최신순(역순)</b> 노출이므로, 가장 오래된 2023.1.25 게시물까지 거슬러 캡처하려면 그 위에 쌓인 이후 게시물(차의대 학술제 2024.10, 신경다양성 설문 2025, 앱 테스터 모집 2025)을 <b>모두 거쳐야</b> 한다. 따라서 사업전환의 공개 증거를 <b>열람하지 못했다고 볼 수 없다</b>. 또한 2023.1.25 시점 프로필에 ‘서비스기획·UIUX’ 정체성이 이미 실재했음은 신보가 직접 캡처한 그 자료로 확인된다. 그럼에도 자금 단편만 발췌했다.",
   full:"<b>전체</b> = 위 범위 + 신보 미열람 사재·채널: 차의대 등록금(개인계좌 사재 1,213만), 케톤 등 개인카드 사재, 카뱅 오키드영. 환류 가설이라면 나타나지 않을 <b>사재 투입</b>이 시간축 전반에 깔려 있다."
 };
 
@@ -413,7 +427,7 @@ function draw(mode){
     `<span class="amt">${won(e.amount)}</span></div>`).join('');
   const jdong=ITEMS.find(e=>e.name==='정민하').amount, sy=12571000;
   document.getElementById('costSum').innerHTML= mode==='full'
-    ? `전체 자료로 보면 대표 정기보수 ${won(SALARY.amount)}와 차의대 학비(${won(12136000)}, 개인계좌 사재)가 최상위 — 정민하(${won(jdong)})·집닥·외주용역은 그 아래. 신보가 "가족 환류"로 지목한 석은영(${won(sy)})은 외주용역 9건 중 하나로 분포에 묻힌다. 사재(차의대·개인카드·오키드영)는 환류와 정반대 벡터다.`
+    ? `전체 반증 인덱스는 약 3.08억(IBK 회계비용 2.76억 + 미열람 사재 0.31억) 규모다. 이 기준으로 보면 대표 정기보수 ${won(SALARY.amount)}와 차의대 학비(${won(12136000)}, 개인계좌 사재)가 최상위 — 정민하(${won(jdong)})·집닥·외주용역은 그 아래. 신보가 "가족 환류"로 지목한 석은영(${won(sy)})은 외주용역 9건 중 하나로 분포에 묻힌다. 사재(차의대·개인카드·오키드영)는 환류와 정반대 벡터다.`
     : `원고 보유·열람(IBK)만 봐도 대표 정기보수 ${won(SALARY.amount)}가 단연 최대 — 정민하(${won(jdong)})·집닥·외주용역은 그 아래. 석은영(${won(sy)})은 외주용역 9건 중 하나. 이 화면은 신보가 가진 IBK 출금분뿐이며, 미열람 사재는 ‘전체’ 탭에서 더해진다.`;
 }
 draw('seen');
